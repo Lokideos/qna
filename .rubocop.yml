@@ -1,0 +1,21 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  #Include gemspec and Rakefile
+  Include:
+    - 'app/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'lib/**/*.rake'
+    - Rakefile
+    - config.ru
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/**/*'
+    - 'db/*.rb'
+    - db/schema.rb
+  
+  Metrics/LineLength:
+    Max: 100
+
+  Style/StringLiterals:
+    Enabled: false
