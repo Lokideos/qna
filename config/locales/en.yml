@@ -48,14 +48,21 @@ en:
     index:
       title: "Questions"
       quesiton_name: "Question title"
-      new_question_action: "New Question"
+      new_question_action: "New Question"      
     new:
       title: "New Question"
     show:
       title: "Question %{question_name}"
+      new_answer_action: "New Answer"
     form:
       submit: '%{action} Question'
   answers:
     index:
       title: "Answers"
-      answer_name: "Answer title"      
+      answer_name: "Answer title"
+    new:   
+      title: "New Answer"
+    show:
+      title: "Answer Details"
+    form:
+      submit: '%{action} Answer'

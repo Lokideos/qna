@@ -1,0 +1,7 @@
+tr
+  td
+    = answer.body
+    br
+    = link_to t('common.edit'), edit_question_answer_path(answer)
+    br
+    = link_to t('common.delete'), question_answer_path(answer), method: :delete, data: { confirm: t('common.confirmation') }
