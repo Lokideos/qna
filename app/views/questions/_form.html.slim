@@ -1,0 +1,12 @@
+= form_for question do |f|
+  
+  div.field
+    = f.label :title
+    = f.text_field :title
+
+  div.field
+    = f.label :body
+    = f.text_field :body
+
+  div.actions
+    = f.submit t('.submit', action: @question.new_record? ? t('common.create') : t('common.change'))
