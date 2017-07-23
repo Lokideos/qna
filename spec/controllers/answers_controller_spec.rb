@@ -19,15 +19,40 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #show' do
-    it 'assign the requested answer to @answer' do
-      get :show, params: { question_id: question.id, id: answer }
+    before { get :show, params: { question_id: question.id, id: answer } }
+
+    it 'assign the requested answer to @answer' do      
       expect(assigns(:answer)).to eq answer
     end
 
-    it 'render show view' do
-      get :show, params: { question_id: question.id, id: answer }
+    it 'render show view' do      
       expect(response).to render_template :show
     end
+  end
+
+  describe 'GET #new' do
+    before { get :edit, params: { question_id: question.id, id: answer } }
+
+    it 'assign the requested answer to @answer' do      
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'render new view' do      
+      expect(response).to render_template :edit
+    end
+  end
+
+  describe 'GET #edit' do
+  end
+
+  describe 'POST #create' do
+  end
+
+  describe 'PATCH #update' do
+  end
+
+  describe 'DELETE #destroy' do
+
   end
 
 end
