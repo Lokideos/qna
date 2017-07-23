@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :answer_params, only: [:show, :edit]
+  before_action :set_answer, only: [:show, :edit]
   def index
     @answers = Answer.all
   end
@@ -14,7 +14,7 @@ class AnswersController < ApplicationController
 
   private
 
-  def answer_params
+  def set_answer
     @answer = Answer.find(params[:id])
   end  
 end
