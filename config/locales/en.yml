@@ -30,4 +30,25 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  common:
+    show: "Show"
+    edit: "Edit"
+    delete: "Delete"
+    confirmation: "Are you sure?"
+    back: "Back"
+    create: "Create"
+    change: "Change"
+  welcome:
+    index:
+      title: "Welcome to Q&A web-site"
+      ad: "Please click on 'Add Question' if you want to add one."
+      add_question_action: "Add Question"
+  questions:
+    index:
+      title: "Questions"
+      quesiton_name: "Question title"
+      new_question_action: "New Question"
+    new:
+      title: "New Question"
+    form:
+      submit: '%{action} Question'
