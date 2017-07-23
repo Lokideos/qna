@@ -1,0 +1,9 @@
+= form_for [@question, answer] do |f|  
+
+  div.field
+    = f.label :body
+    br
+    = f.text_area :body, :cols => "50", :rows => "10"
+
+  div.actions
+    = f.submit t('.submit', action: @answer.new_record? ? t('common.create') : t('common.change'))

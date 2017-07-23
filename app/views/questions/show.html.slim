@@ -1,0 +1,17 @@
+h3
+  = t('.title', question_name: @question.title)
+
+p
+  = @question.body
+
+table
+  thead
+  tbody
+    = render @question.answers
+
+p
+  = link_to t('.new_answer_action'), new_question_answer_path(@question)
+p
+  = link_to t('common.edit'), edit_question_path(@question)
+p
+  = link_to t('common.back'), questions_path
