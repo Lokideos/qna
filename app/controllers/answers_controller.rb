@@ -1,12 +1,12 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: [:show, :edit]
+  before_action :set_answer, only: [:show, :edit, :update]
   def index
     @answers = Answer.all
   end
 
   def show; end
 
-  def new
+  def new    
     @answer = Answer.new
   end
 
@@ -20,6 +20,14 @@ class AnswersController < ApplicationController
       redirect_to question_path(@question)
     else
       render :new
+    end
+  end
+
+  def update
+    if @answer.update(answer_params)
+      redirect_to question_answer_path(@answer)
+    else
+      render :edit
     end
   end
 
