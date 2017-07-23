@@ -2,8 +2,8 @@ tr
   td
     = question.title
   td
-    = link_to 'Show', question_path(question)
+    = link_to t('common.show'), question_path(question)
   td
-    = link_to 'Edit', edit_question_path(question)
+    = link_to t('common.edit'), edit_question_path(question)
   td
-    = link_to 'Delete', question, method: :delete, data: { confirm: 'Are you sure?' }
+    = link_to t('common.delete'), question, method: :delete, data: { confirm: t('common.confirmation') }
