@@ -42,7 +42,8 @@ en:
     index:
       title: "Welcome to Q&A web-site"
       ad: "Please click on 'Add Question' if you want to add one."
-      add_question_action: "Add Question"
+      show_question_action: "Show Questions"
+      new_question_action: "Add Question"
   questions:
     index:
       title: "Questions"
@@ -54,3 +55,7 @@ en:
       title: "Question %{question_name}"
     form:
       submit: '%{action} Question'
+  answers:
+    index:
+      title: "Answers"
+      answer_name: "Answer title"      
