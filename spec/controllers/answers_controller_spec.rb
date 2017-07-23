@@ -30,7 +30,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
+  describe 'GET #edit' do
     before { get :edit, params: { question_id: question.id, id: answer } }
 
     it 'assign the requested answer to @answer' do      
