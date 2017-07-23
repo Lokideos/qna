@@ -1,0 +1,10 @@
+h3
+  = t('.title', question_name: @question.title)
+
+p
+  = @question.body
+
+p
+  = link_to t('common.edit'), edit_question_path(@question)
+p
+  = link_to t('common.back'), questions_path
