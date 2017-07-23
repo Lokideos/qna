@@ -112,7 +112,16 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    before { answer }
 
+    it 'deletes answer' do
+      expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(Answer, :count).by(-1)
+    end
+
+    it 'redirects to related question view' do
+      delete :destroy, params: { question_id: question.id, id: answer }
+      expect(response).to redirect_to question_answers_path
   end
+end
 
 end
