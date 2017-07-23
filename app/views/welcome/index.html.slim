@@ -1,6 +1,8 @@
-h1 Welcome!
+h1 
+  = t('.title')
 
-h2 Please click on 'Add Question' if you want to add one.
+h2 
+  = t('.ad')
 
 li
-  = link_to 'Add Question', questions_path
+  = link_to t('.add_question_action'), questions_path
