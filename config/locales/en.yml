@@ -48,7 +48,7 @@ en:
     index:
       title: "Questions"
       quesiton_name: "Question title"
-      new_question_action: "New Question"      
+      new_question_action: "Ask question"      
     new:
       title: "New Question"
     show:
