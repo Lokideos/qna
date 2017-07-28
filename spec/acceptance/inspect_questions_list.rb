@@ -21,7 +21,8 @@ feature 'Inspect question list', %q{
   scenario 'Non-authenticated user check questions list' do
     visit questions_path
 
-    expect(page).to have_content "Questions List"
+    Question.create!(title: "Test Question", body: "Test text")
+    expect(page).to have_content "Questions List"    
     expect(page).to have_content "Test Question"
   end
   
