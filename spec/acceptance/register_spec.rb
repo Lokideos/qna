@@ -9,10 +9,8 @@ feature 'Sign Up', %q{
   given(:user){ create(:user) }
 
   scenario 'Non-existed user tries to sign up' do
-    visit root_path
-    click_on 'Sign In'
-
-    click_on 'Sign up'    
+    start_registration
+        
     fill_in 'Email', with: "test@test.com"
     fill_in 'Password', with: "123456789"
     fill_in 'Password confirmation', with: "123456789"
@@ -23,10 +21,8 @@ feature 'Sign Up', %q{
   end
 
   scenario 'Existed user tries to sign up' do
-    visit root_path
-    click_on 'Sign In'
-
-    click_on 'Sign up'
+    start_registration
+    
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     fill_in 'Password confirmation', with: user.password_confirmation

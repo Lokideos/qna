@@ -5,4 +5,10 @@ module AcceptanceHelper
     fill_in 'Password', with: user.password
     click_on 'Log in'
   end
+
+  def start_registration
+    visit root_path
+    click_on "Sign In"
+    click_on "Sign up"
+  end
 end
