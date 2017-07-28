@@ -15,7 +15,7 @@ feature 'Create answer to question', %q{
     visit questions_path
     click_on 'Show'
     
-    fill_in 'Body', with: 'Test Answer'
+    fill_in "Add New Answer", with: 'Test Answer'
     click_on 'Create'
 
     expect(page).to have_content 'Test Answer'
@@ -25,11 +25,9 @@ feature 'Create answer to question', %q{
     create(:question)
     visit questions_path
     click_on 'Show'
+    save_and_open_page
     
-    fill_in 'Body', with: 'Test Answer'
-    click_on 'Create'    
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_content 'You have to log in to the system to be able to create answers.'
   end
 
 end

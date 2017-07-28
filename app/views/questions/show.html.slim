@@ -9,8 +9,12 @@ table
   tbody
     = render @question.answers
 
-p
-  = link_to t('.new_answer_action'), new_question_answer_path(@question)
+- unless current_user == nil
+  = render 'answers/form', question: @question, answer: @answer
+- else
+  h3
+    = t('.answer_non_authenticated')
+
 p
   = link_to t('common.edit'), edit_question_path(@question)
 p

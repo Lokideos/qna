@@ -54,6 +54,7 @@ en:
     show:
       title: "Question %{question_name}"
       new_answer_action: "New Answer"
+      answer_non_authenticated: "You have to log in to the system to be able to create answers."
     form:
       submit: '%{action} Question'
   answers:
