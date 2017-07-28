@@ -24,9 +24,8 @@ feature 'Create answer to question', %q{
   scenario 'Non-authenticated user tries to create answer' do
     create(:question)
     visit questions_path
-    click_on 'Show'
-    save_and_open_page
-    
+    click_on 'Show'    
+
     expect(page).to have_content 'You have to log in to the system to be able to create answers.'
   end
 
