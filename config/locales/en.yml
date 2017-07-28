@@ -46,7 +46,7 @@ en:
       new_question_action: "Add Question"
   questions:
     index:
-      title: "Questions"
+      title: "Questions List"
       quesiton_name: "Question title"
       new_question_action: "Ask question"      
     new:
