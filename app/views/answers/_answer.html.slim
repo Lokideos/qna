@@ -2,6 +2,6 @@ tr
   td
     = answer.body
     br
-    = link_to t('common.edit'), edit_question_answer_path(answer)
+    = link_to t('common.edit'), edit_question_answer_path(@question, answer)
     br
-    = link_to t('common.delete'), question_answer_path(answer), method: :delete, data: { confirm: t('common.confirmation') }
+    = link_to t('common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation') }

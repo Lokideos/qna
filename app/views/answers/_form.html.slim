@@ -2,7 +2,7 @@
 
   div.field
     br
-    = f.label :body, "Add New Answer"
+    = f.label :body, t('.text_name', description: @answer.new_record? ? t('answers.common.add_new') : t('answers.common.edit'))
     br
     = f.text_area :body
 

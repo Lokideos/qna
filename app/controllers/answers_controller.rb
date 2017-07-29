@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
-  before_action :set_question, only: [:new, :create, :destroy]
+  before_action :set_question, only: [:new, :create]
+  before_action :set_question_for_del_and_edit, only: [:edit, :destroy]
 
   def index
     @answers = Answer.all
@@ -26,16 +27,16 @@ class AnswersController < ApplicationController
 
   def update
     if @answer.update(answer_params)
-      redirect_to question_answer_path(@answer)
+      redirect_to question_path(@answer.question)
     else
       render :edit
     end
   end
 
-  def destroy
+  def destroy    
     @answer.destroy
 
-    redirect_to question_answers_path(@question)
+    redirect_to question_path(@question)
   end
 
   private
@@ -48,8 +49,12 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
   end
 
+  def set_question_for_del_and_edit
+    @question = @answer.question
+  end
+
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, :question_id)
   end
 
 end

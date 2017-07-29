@@ -60,6 +60,9 @@ en:
     form:
       submit: '%{action} Question'
   answers:
+    common:
+      add_new: 'Add New'
+      edit: 'Edit'
     index:
       title: "Answers"
       answer_name: "Answer title"
@@ -68,4 +71,5 @@ en:
     show:
       title: "Answer Details"
     form:
+      text_name: '%{description} Answer'      
       submit: '%{action} Answer'
