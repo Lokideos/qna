@@ -1,11 +1,4 @@
-/ h2
-/   = t('.title')
+h2
+  = t('.title')
 
-/ = render 'form', question: @question
-
-= form_for @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Create'
+= render 'form', question: @question

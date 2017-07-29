@@ -6,16 +6,13 @@ feature 'Delete questions and answers only by author', %q{
   I want to be able to delete only mine answers and questions
 } do
 
-  given(:user){ create(:user) }  
+  given(:user){ create(:user) }
+  given(:user2){ create(:user) }
 
   scenario 'Authenticated user tries to delete his question' do
     sign_in(user)
-    visit questions_path
-    
-    click_on "Ask question"
-    fill_in "Title", with: "My Test Question"
-    fill_in "Body", with: "Text text text"
-    click_on "Create"
+
+    create_question
 
     visit questions_path
     click_on "Delete"    
@@ -26,65 +23,45 @@ feature 'Delete questions and answers only by author', %q{
 
   scenario 'Authenticated user tries to delete his answer' do
     sign_in(user)
-    visit questions_path
-    
-    click_on "Ask question"
-    fill_in "Title", with: "My Test Question"
-    fill_in "Body", with: "Text text text"
-    click_on "Create"
 
-    fill_in "Add New Answer", with: "My Test Answer"
-    click_on "Create Answer"
+    create_question
+
+    create_answer
 
     click_on "Delete"
     expect(page).to_not have_content "My Test Answer"
   end
 
-  scenario 'Authenticated user tries to delete not his question' do
+  scenario 'Authenticated user tries to delete not his question' do    
     sign_in(user)
-    visit questions_path
 
-    click_on "Ask question"
-    fill_in "Title", with: "My Test Question"
-    fill_in "Body", with: "Text text text"
-    click_on "Create"
+    create_question
 
     click_on "Sign Out"
-    create(:user)
-    sign_in(user)
-    click_on "Delete"
+    sign_in(user2)
     
-    expect(page).to have_content "My Test Question"
+    expect(page).to_not have_content "Delete"
   end
 
   scenario 'Authenticated user tries to delete not his answer' do
     sign_in(user)
-    visit questions_path
 
-    click_on "Ask question"
-    fill_in "Title", with: "My Test Question"
-    fill_in "Body", with: "Text text text"
-    click_on "Create"
+    create_question
 
-    fill_in "Add New Answer", with: "My Test Answer"
-    click_on "Create Answer"
+    create_answer
 
     click_on "Sign Out"
-    create(:user)
-    sign_in(user)
+    sign_in(user2)
+
     click_on "Show"
-    click_on "Delete"
-    expect(page).to have_content "My Test Answer"    
+    
+    expect(page).to_not have_content "Delete" 
   end
 
   scenario 'Non-authenticated user tries to delete question' do
     sign_in(user)
-    visit questions_path
 
-    click_on "Ask question"
-    fill_in "Title", with: "My Test Question"
-    fill_in "Body", with: "Text text text"
-    click_on "Create"
+    create_question
 
     click_on "Sign Out"
 
@@ -93,15 +70,10 @@ feature 'Delete questions and answers only by author', %q{
 
   scenario 'Non-authenticated user tries to delete answer' do
     sign_in(user)
-    visit questions_path
 
-    click_on "Ask question"
-    fill_in "Title", with: "My Test Question"
-    fill_in "Body", with: "Text text text"
-    click_on "Create"
+    create_question
 
-    fill_in "Add New Answer", with: "My Test Answer"
-    click_on "Create Answer"
+    create_answer
 
     click_on "Sign Out"
 

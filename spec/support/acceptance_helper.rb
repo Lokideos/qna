@@ -11,4 +11,19 @@ module AcceptanceHelper
     click_on "Sign In"
     click_on "Sign up"
   end
+
+  # Fabric didn't help because of testing current_user.id method
+  def create_question    
+    visit questions_path
+    
+    click_on "Ask question"
+    fill_in "Title", with: "My Test Question"
+    fill_in "Body", with: "Text text text"
+    click_on "Create"
+  end
+
+  def create_answer
+    fill_in "Add New Answer", with: "My Test Answer"
+    click_on "Create Answer"
+  end
 end

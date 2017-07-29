@@ -1,7 +1,9 @@
 tr
   td
-    = answer.body
-    br
-    = link_to t('common.edit'), edit_question_answer_path(@question, answer)
-    br
-    = link_to t('common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation') }
+    = answer.body  
+    - if user_signed_in?
+      - if current_user.id == answer.user_id
+        br
+        = link_to t('common.edit'), edit_question_answer_path(@question, answer)
+        br
+        = link_to t('common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation') }
