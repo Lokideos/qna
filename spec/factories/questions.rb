@@ -5,7 +5,8 @@ FactoryGirl.define do
 
   factory :question do
     title
-    body "MyText"
+    body "MyQuestionText"
+    user_id { create{(:user)}.id }
   end
 
   factory :invalid_question, class: "Question" do

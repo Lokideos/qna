@@ -8,21 +8,25 @@ feature 'Create answer to question', %q{
 
   given(:user) { create(:user) }
 
-  scenario 'Authenticated user create answer' do
+  scenario 'Authenticated user creates answer' do
     sign_in(user)
-    create(:question)
+    create_question
 
     visit questions_path
-    click_on 'Show'
+    click_on 'Show'    
     
     fill_in "Add New Answer", with: 'Test Answer'
-    click_on 'Create'
+    click_on 'Create Answer'
 
     expect(page).to have_content 'Test Answer'
   end
 
   scenario 'Non-authenticated user tries to create answer' do
-    create(:question)
+    sign_in(user)
+    create_question    
+    click_on 'Sign Out'
+
+    
     visit questions_path
     click_on 'Show'    
 
