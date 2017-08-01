@@ -42,7 +42,7 @@ class QuestionsController < ApplicationController
 
       redirect_to questions_path
     else
-      render :show
+      render :index
     end
   end
 

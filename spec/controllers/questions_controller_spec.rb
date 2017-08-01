@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
-  let(:question_without_user) { create(:question) }
+  let(:question) { create(:question, user: user) }
 
   describe 'GET #index' do    
     let(:questions) { user; create_list(:question, 2) }
@@ -132,13 +131,29 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { question }
 
-    it 'deletes question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'with valid user signed in' do
+    before { controller.stub(:current_user).and_return (user) }
+
+      it 'deletes question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index view' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'with invalid user signed in' do    
+      it 'not delete question' do
+        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: question }
+        expect(response).to render_template :index
+      end
     end
+
   end
 end
