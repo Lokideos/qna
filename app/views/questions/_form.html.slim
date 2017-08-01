@@ -10,8 +10,5 @@
     br
     = f.text_area :body, :cols => "50", :rows => "10"
 
-  = f.label :user_id, hidden: true
-  = f.text_field :user_id, value: current_user.id, hidden: true
-
   div.actions
     = f.submit t('.submit', action: @question.new_record? ? t('common.create') : t('common.change'))

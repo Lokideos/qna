@@ -19,6 +19,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.create(question_params)
+    @question.user_id = current_user.id
 
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
@@ -36,9 +37,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
+    if current_user = @question.user
+      @question.destroy
 
-    redirect_to questions_path
+      redirect_to questions_path
+    else
+      render :show
+    end
   end
 
   private
@@ -48,6 +53,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :user_id)
+    params.require(:question).permit(:title, :body)
   end
 end
