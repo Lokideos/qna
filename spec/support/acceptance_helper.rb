@@ -13,12 +13,12 @@ module AcceptanceHelper
   end
 
   # Fabric didn't help because of testing current_user.id method
-  def create_question    
+  def create_question(question)   
     visit questions_path
     
     click_on "Ask question"
-    fill_in "Title", with: "My Test Question"
-    fill_in "Body", with: "Text text text"
+    fill_in "Title", with: question.title
+    fill_in "Body", with: question.body
     click_on "Create"
   end
 

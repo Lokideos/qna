@@ -7,30 +7,25 @@ feature 'Inspect question list', %q{
 } do 
 
   given(:user) { create(:user) }
+  given(:question) { create(:question) }
 
   scenario 'Authenticated user check questions list' do
-    
     sign_in(user)
-
-    create_question
-
+    question
     visit questions_path
 
     expect(page).to have_content "Questions List"
-    expect(page).to have_content "My Test Question"
+    expect(page).to have_content question.title
   end
 
   scenario 'Non-authenticated user check questions list' do
     sign_in(user)
-
-    create_question
-
+    question
     click_on "Sign Out"
-
     visit questions_path
 
     expect(page).to have_content "Questions List"
-    expect(page).to have_content "My Test Question"
+    expect(page).to have_content question.title
   end
   
 end

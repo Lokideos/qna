@@ -7,13 +7,12 @@ feature 'Create answer to question', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   scenario 'Authenticated user creates answer with valid parameters' do
     sign_in(user)
-    create_question
-
-    visit questions_path
-    click_on 'Show'    
+    question
+    visit question_path(question)
     
     fill_in "Add New Answer", with: 'Test Answer'
     click_on 'Create Answer'
@@ -24,10 +23,8 @@ feature 'Create answer to question', %q{
 
   scenario 'Authenticated user creates answer with invalid parameters' do
     sign_in(user)
-    create_question
-
-    visit questions_path
-    click_on 'Show'
+    question
+    visit question_path(question)
 
     fill_in "Add New Answer", with: nil
     click_on 'Create Answer'
@@ -37,13 +34,10 @@ feature 'Create answer to question', %q{
 
   scenario 'Non-authenticated user tries to create answer' do
     sign_in(user)
-    create_question    
+    question
     click_on 'Sign Out'
-
-    
-    visit questions_path
-    click_on 'Show'    
-
+    visit question_path(question)
+        
     expect(page).to have_content 'You have to log in to the system to be able to create answers.'
   end
 
