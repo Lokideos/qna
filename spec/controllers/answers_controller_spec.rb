@@ -36,9 +36,10 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).question_id).to eq question.id
       end
 
-      it 'redirects to show view' do
+      it 'redirects to question show view with success flash notice' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
         expect(response).to redirect_to question_path(assigns(:question))
+        expect(flash[:success]).to be_present
       end
     end
 
@@ -47,9 +48,10 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) } }.to_not change(Answer, :count)
       end
 
-      it 're-render new view' do
+      it 'redirects to question show view with error flash notice' do
         post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) }
-        expect(response).to render_template :new
+        expect(response).to redirect_to question_path(assigns(:question))
+        expect(flash[:error]).to be_present
       end
     end
   end
