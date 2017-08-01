@@ -1,17 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: [:show, :edit, :update, :destroy]
-  before_action :set_question, only: [:new, :create]
-  before_action :set_question_for_del_and_edit, only: [:edit, :destroy]
-
-  def index
-    @answers = Answer.all
-  end
-
-  def show; end
-
-  def new    
-    @answer = Answer.new
-  end
+  before_action :set_answer, only: [:edit, :update, :destroy]
+  before_action :set_question
 
   def edit; end
 
@@ -21,22 +10,26 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question_path(@question)
     else
-      render :new
+      render "questions/show"
     end
   end
 
   def update
     if @answer.update(answer_params)
-      redirect_to question_path(@answer.question)
+      redirect_to question_path(@question)
     else
-      render :edit
+      render "questions/show"
     end
   end
 
-  def destroy    
-    @answer.destroy
+  def destroy
+    if current_user == @answer.user
+      @answer.destroy
 
-    redirect_to question_path(@question)
+      redirect_to question_path(@question)
+    else
+      render "questions/show"
+    end
   end
 
   private
@@ -47,10 +40,6 @@ class AnswersController < ApplicationController
 
   def set_question
     @question = Question.find(params[:question_id])
-  end
-
-  def set_question_for_del_and_edit
-    @question = @answer.question
   end
 
   def answer_params
