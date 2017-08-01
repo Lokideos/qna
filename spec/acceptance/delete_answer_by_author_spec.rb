@@ -8,7 +8,7 @@ feature 'Delete answers only by author', %q{
 
   given(:user){ create(:user) }
   given(:user2){ create(:user) }
-  given(:question){ create(:question) }
+  given(:question){ create(:question, user: user) }
   given(:answer){ create(:answer, question: question, user: user) }
 
   scenario 'Authenticated user tries to delete his answer' do
@@ -23,12 +23,10 @@ feature 'Delete answers only by author', %q{
   end
   
   scenario 'Authenticated user tries to delete not his answer' do
-    sign_in(user)
     question
-    answer    
-    click_on "Sign Out"
-
+    answer
     sign_in(user2)
+    
     visit question_path(question)
 
     expect(page).to have_content answer.body
@@ -36,11 +34,8 @@ feature 'Delete answers only by author', %q{
   end
 
   scenario 'Non-authenticated user tries to delete answer' do
-    sign_in(user)
     question
-    answer
-    click_on "Sign Out"
-
+    answer    
     visit question_path(question)
         
     expect(page).to have_content answer.body

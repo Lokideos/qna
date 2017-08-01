@@ -21,22 +21,19 @@ feature 'Delete questions only by author', %q{
     expect(current_path).to eq questions_path
   end
 
-  scenario 'Authenticated user tries to delete not his question' do    
-    sign_in(user)
+  scenario 'Authenticated user tries to delete not his question' do        
     question
-    click_on "Sign Out"
-
     sign_in(user2)
+    
     visit questions_path
     expect(page).to have_content question.title 
     expect(page).to_not have_content "Delete"
   end
 
-  scenario 'Non-authenticated user tries to delete question' do
-    sign_in(user)
-    create_question(question)
-    click_on "Sign Out"
-    
+  scenario 'Non-authenticated user tries to delete question' do    
+    question
+    visit questions_path
+
     expect(page).to have_content question.title
     expect(page).to_not have_content "Delete"
   end

@@ -33,9 +33,7 @@ feature 'Create answer to question', %q{
   end
 
   scenario 'Non-authenticated user tries to create answer' do
-    sign_in(user)
     question
-    click_on 'Sign Out'
     visit question_path(question)
         
     expect(page).to have_content 'You have to log in to the system to be able to create answers.'
