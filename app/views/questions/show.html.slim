@@ -16,7 +16,7 @@ table
     = t('.answer_non_authenticated')
 
 - if user_signed_in?
-  - if current_user.id == @question.user_id
+  - if User.author_of?(current_user, @question)
     p
       = link_to t('common.edit'), edit_question_path(@question)
 p

@@ -37,7 +37,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user = @question.user
+    if User.author_of?(current_user, @question)
       @question.destroy
 
       redirect_to questions_path

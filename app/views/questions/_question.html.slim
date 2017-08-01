@@ -5,7 +5,7 @@ tr
     = link_to t('common.show'), question_path(question)
 
   - if user_signed_in?
-    - if current_user.id == question.user_id
+    - if User.author_of?(current_user, question)
 
       td
         = link_to t('common.edit'), edit_question_path(question)
