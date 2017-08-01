@@ -2,46 +2,8 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  let(:answer) { create(:answer) }
-  let(:question) { create(:question) }  
-
-  describe 'GET #index' do    
-    let(:answers) { user; question; create_list(:answer, 2) }
-
-    before { get :index, params: { question_id: question.id } }
-
-    it 'populates array array of all answers to this questions' do      
-      expect(assigns(:answers)).to match_array(answers)
-    end
-
-    it 'render index view' do      
-      expect(response).to render_template :index
-    end
-  end
-
-  describe 'GET #show' do
-    before { get :show, params: { question_id: question.id, id: answer } }
-
-    it 'assign the requested answer to @answer' do      
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'render show view' do      
-      expect(response).to render_template :show
-    end
-  end
-
-  describe 'GET #new' do
-    before { get :new, params: { question_id: question.id } }
-
-    it 'assigns a new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'render new view' do
-      expect(response).to render_template :new
-    end
-  end
+  let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, user: user, question: question) }
 
   describe 'GET #edit' do
     before { get :edit, params: { question_id: question.id, id: answer } }
@@ -56,9 +18,17 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+
+    before { controller.stub(:current_user).and_return (user) }
+
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)        
+      end
+
+      it 'saves the new answer and its association to correct user' do
+        post :create, params: { question_id: question.id, answer:attributes_for(:answer) }
+        expect(assigns(:answer).user_id).to eq user.id
       end
 
       it 'saves the new answer and its association to correct question' do
