@@ -9,7 +9,7 @@ table
   tbody
     = render @question.answers
 
-- unless current_user == nil
+- if current_user
   = render 'answers/form', question: @question, answer: @answer
 - else
   h3

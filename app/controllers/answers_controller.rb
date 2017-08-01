@@ -9,27 +9,32 @@ class AnswersController < ApplicationController
     @answer.user_id = current_user.id
     
     if @answer.save
+      flash[:success] = "Answer was created."
       redirect_to question_path(@question)
     else
-      render "questions/show"
+      redirect_to question_path(@question)
+      flash[:error] = error_msg(@answer)
     end
   end
 
   def update
     if @answer.update(answer_params)
+      flash[:success] = "Answer was updated."
       redirect_to question_path(@question)
     else
-      render "questions/show"
+      redirect_to question_path(@question)
+      flash[:error] = error_msg(@answer)
     end
   end
 
   def destroy
     if User.author_of?(current_user, @answer)
       @answer.destroy
-
+      flash[:success] = "Answer was deleted."
       redirect_to question_path(@question)
     else
-      render "questions/show"
+      redirect_to question_path(@question)
+      flash[:error] = error_msg(@answer)
     end
   end
 
@@ -45,6 +50,10 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def error_msg(item)
+    "Data for your answer contained #{item.errors.count} error: #{item.errors.full_messages.join(', ')}"
   end
 
 end

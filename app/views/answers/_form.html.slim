@@ -1,5 +1,7 @@
 = form_for [question, answer] do |f|  
 
+  = render 'common/error_check', resource: answer
+
   div.field
     br
     = f.label :body, t('.text_name', description: @answer.new_record? ? t('answers.common.add_new') : t('answers.common.edit'))

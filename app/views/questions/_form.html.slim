@@ -1,4 +1,6 @@
 = form_for question do |f|
+
+  = render '/common/error_check', resource: question
   
   div.field
     = f.label :title

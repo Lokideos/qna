@@ -18,6 +18,11 @@
 
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
+  <p>
+    <%= flash[:success] unless flash[:success].blank? %>
+    <%= flash[:error] unless flash[:error].blank? %>
+  </p>
+
 
     <%= yield %>
   </body>
