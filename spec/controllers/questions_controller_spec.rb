@@ -109,7 +109,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       before do
-        post :create, params: { question: attributes_for(:question) }
+        question
         @correct_title = question.title
         @correct_body = question.body
         patch :update, params: { id: question, question: { title: 'new title', body: nil } }
