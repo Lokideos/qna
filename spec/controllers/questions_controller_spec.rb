@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
+  let(:question_without_user) { create(:question) }
 
   describe 'GET #index' do    
     let(:questions) { user; create_list(:question, 2) }
@@ -110,7 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
       before do
         post :create, params: { question: attributes_for(:question) }
         @correct_title = question.title
-        @corret_body = question.body
+        @correct_body = question.body
         patch :update, params: { id: question, question: { title: 'new title', body: nil } }
       end
 
@@ -131,7 +132,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { question }
 
-    it 'deletes question' do      
+    it 'deletes question' do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
     end
 

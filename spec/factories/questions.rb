@@ -9,6 +9,12 @@ FactoryGirl.define do
     user
   end
 
+  factory :question_without_user do
+    title
+    body "Question Without User"
+  end
+
+
   factory :invalid_question, class: "Question" do
     title nil
     body nil
