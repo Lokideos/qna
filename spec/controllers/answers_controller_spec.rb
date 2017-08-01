@@ -71,20 +71,25 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to the updated answer' do        
         patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer) }
-        expect(response).to redirect_to question_answer_path(assigns(:answer))
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } } }
+      before do
+        answer
+        @correct_body = answer.body
+        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }         
+      end
 
       it 'does not change answer attributes' do
         answer.reload
-        expect(answer.body).to eq 'MyText'
+        expect(answer.body).to eq @correct_body
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it 'redirect to related quesiton view and show flash error message' do
+        expect(response).to redirect_to question_path(assigns(:question))
+        expect(flash[:error]).to be_present
       end
     end
   end
@@ -92,13 +97,30 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     before { answer }
 
-    it 'deletes answer' do
-      expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(Answer, :count).by(-1)
+    context 'with valid author' do
+      before { controller.stub(:current_user).and_return (user) }
+
+      it 'deletes answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to related question view' do
+        delete :destroy, params: { question_id: question.id, id: answer }
+        expect(response).to redirect_to question_path(assigns(:question))        
+      end
+    end
+    
+    context 'with invalid author' do
+
+      it 'not deletes answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer } }.not_to change(Answer, :count)
+      end
+
+      it 'redirects to related question view' do
+        delete :destroy, params: { question_id: question.id, id: answer }
+        expect(response).to redirect_to question_path(assigns(:question))        
+      end
     end
 
-    it 'redirects to related question view' do
-      delete :destroy, params: { question_id: question.id, id: answer }
-      expect(response).to redirect_to question_answers_path
-    end
   end
 end
