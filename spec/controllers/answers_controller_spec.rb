@@ -6,6 +6,8 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer, user: user, question: question) }
 
   describe 'GET #edit' do
+    sign_in_user
+
     before { get :edit, params: { question_id: question.id, id: answer } }
 
     it 'assign the requested answer to @answer' do      
@@ -18,6 +20,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
 
     before { controller.stub(:current_user).and_return (user) }
 
@@ -57,6 +60,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    sign_in_user
+
     context 'with valid attributes' do
       it 'assigns the requestesd answer to @answer' do
         patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer) }
@@ -95,6 +100,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    sign_in_user
+    
     before { answer }
 
     context 'with valid author' do
