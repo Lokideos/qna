@@ -22,16 +22,13 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     sign_in_user
 
-    before { controller.stub(:current_user).and_return (user) }
-
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)        
       end
 
       it 'saves the new answer and its association to correct user' do
-        post :create, params: { question_id: question.id, answer:attributes_for(:answer) }
-        expect(assigns(:answer).user_id).to eq user.id
+        expect { post :create, params: { question_id: question.id, answer:attributes_for(:answer) } }.to change(@user.answers, :count).by(1)        
       end
 
       it 'saves the new answer and its association to correct question' do
