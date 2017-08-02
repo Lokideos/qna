@@ -50,8 +50,4 @@ class AnswersController < ApplicationController
     params.require(:answer).permit(:body)
   end
 
-  def error_msg(item)
-    "Data for your answer contained #{item.errors.count} error: #{item.errors.full_messages.join(', ')}"
-  end
-
 end
