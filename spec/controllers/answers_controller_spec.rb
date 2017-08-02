@@ -78,18 +78,16 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before do
-        answer
-        @correct_body = answer.body
-        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }         
-      end
 
       it 'does not change answer attributes' do
+        correct_body = answer.body
+        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
         answer.reload
-        expect(answer.body).to eq @correct_body
+        expect(answer.body).to eq correct_body
       end
 
       it 'redirect to related quesiton view and show flash error message' do
+        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
         expect(response).to redirect_to question_path(assigns(:question))
         expect(flash[:error]).to be_present
       end
