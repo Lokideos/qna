@@ -6,13 +6,13 @@ feature 'Delete answers only by author', %q{
   I want to be able to delete only mine answers
 } do
 
-  given!(:user){ create(:user) }
-  given!(:user2){ create(:user) }
-  given!(:question){ create(:question, user: user) }
-  given!(:answer){ create(:answer, question: question, user: user) }
+  given!(:author){ create(:user) }
+  given!(:non_author){ create(:user) }
+  given!(:question){ create(:question, user: author) }
+  given!(:answer){ create(:answer, question: question, user: author) }
 
   scenario 'Authenticated user tries to delete his answer' do
-    sign_in(user)    
+    sign_in(author)    
     visit question_path(question)
     expect(page).to have_content answer.body
 
@@ -21,7 +21,7 @@ feature 'Delete answers only by author', %q{
   end
   
   scenario 'Authenticated user tries to delete not his answer' do
-    sign_in(user2)
+    sign_in(non_author)
     
     visit question_path(question)
 

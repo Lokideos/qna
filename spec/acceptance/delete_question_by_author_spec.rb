@@ -6,12 +6,12 @@ feature 'Delete questions only by author', %q{
   I want to be able to delete only mine questions
 } do
 
-  given!(:user){ create(:user) }
-  given!(:user2){ create(:user) }
-  given!(:question){ create(:question, user: user) }
+  given!(:author){ create(:user) }
+  given!(:non_author){ create(:user) }
+  given!(:question){ create(:question, user: author) }
 
   scenario 'Authenticated user tries to delete his question' do
-    sign_in(user)
+    sign_in(author)
     visit questions_path
     expect(page).to have_content question.title
     click_on "Delete"    
@@ -21,7 +21,7 @@ feature 'Delete questions only by author', %q{
   end
 
   scenario 'Authenticated user tries to delete not his question' do
-    sign_in(user2)
+    sign_in(non_author)
     
     visit questions_path
     expect(page).to have_content question.title 
