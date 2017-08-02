@@ -1,8 +1,7 @@
 tr
   td
     = answer.body  
-    - if user_signed_in?
-      - if User.author_of?(current_user, answer)
+    - if current_user&.author_of?(answer)
         br
         = link_to t('common.edit'), edit_question_answer_path(@question, answer)
         br
