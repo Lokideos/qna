@@ -11,7 +11,6 @@ feature 'Create answer to question', %q{
 
   scenario 'Authenticated user creates answer with valid parameters' do
     sign_in(user)
-    question
     visit question_path(question)
     
     fill_in "Add New Answer", with: 'Test Answer'
@@ -23,7 +22,6 @@ feature 'Create answer to question', %q{
 
   scenario 'Authenticated user creates answer with invalid parameters' do
     sign_in(user)
-    question
     visit question_path(question)
 
     fill_in "Add New Answer", with: nil
@@ -33,7 +31,6 @@ feature 'Create answer to question', %q{
   end
 
   scenario 'Non-authenticated user tries to create answer' do
-    question
     visit question_path(question)
         
     expect(page).to have_content 'You have to log in to the system to be able to create answers.'

@@ -8,11 +8,10 @@ feature 'Inspect question list', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }
-  given(:questions) { create_list(:question, 3, user: user) }
+  given!(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'Authenticated user check questions list' do
     sign_in(user)
-    questions
     visit questions_path
 
     expect(page).to have_content "Questions List"
@@ -20,7 +19,6 @@ feature 'Inspect question list', %q{
   end
 
   scenario 'Non-authenticated user check questions list' do
-    questions
     visit questions_path
 
     expect(page).to have_content "Questions List"

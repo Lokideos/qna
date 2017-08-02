@@ -6,13 +6,12 @@ feature 'Delete questions only by author', %q{
   I want to be able to delete only mine questions
 } do
 
-  given(:user){ create(:user) }
-  given(:user2){ create(:user) }
-  given(:question){ create(:question, user: user) }
+  given!(:user){ create(:user) }
+  given!(:user2){ create(:user) }
+  given!(:question){ create(:question, user: user) }
 
   scenario 'Authenticated user tries to delete his question' do
     sign_in(user)
-    question
     visit questions_path
     expect(page).to have_content question.title
     click_on "Delete"    
@@ -21,8 +20,7 @@ feature 'Delete questions only by author', %q{
     expect(current_path).to eq questions_path
   end
 
-  scenario 'Authenticated user tries to delete not his question' do        
-    question
+  scenario 'Authenticated user tries to delete not his question' do
     sign_in(user2)
     
     visit questions_path
@@ -30,8 +28,7 @@ feature 'Delete questions only by author', %q{
     expect(page).to_not have_content "Delete"
   end
 
-  scenario 'Non-authenticated user tries to delete question' do    
-    question
+  scenario 'Non-authenticated user tries to delete question' do
     visit questions_path
 
     expect(page).to have_content question.title

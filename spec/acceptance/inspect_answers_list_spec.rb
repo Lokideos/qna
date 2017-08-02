@@ -8,13 +8,10 @@ feature 'Inspect answers list', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:answer) { create(:answer, user: user, question: question) }
-  given(:answers) { create_list(:answer, 3, user: user, question: question) }
+  given!(:answers) { create_list(:answer, 3, user: user, question: question) }
 
   scenario 'Authenticated user check answers list' do
-    sign_in(user)
-    question    
-    answers
+    sign_in(user)    
     visit question_path(question)
     
     expect(page).to have_content question.title
@@ -22,9 +19,7 @@ feature 'Inspect answers list', %q{
     expect(page).to have_content('MyText', count: 3)
   end
 
-  scenario 'Non-authenticated user check answers list' do    
-    question
-    answers
+  scenario 'Non-authenticated user check answers list' do
     visit question_path(question)
 
     expect(page).to have_content question.title
