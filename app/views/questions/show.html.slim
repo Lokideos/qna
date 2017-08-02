@@ -15,8 +15,7 @@ table
   h3
     = t('.answer_non_authenticated')
 
-- if user_signed_in?
-  - if current_user.author_of?(@question)
+- if current_user&.author_of?(@question)
     p
       = link_to t('common.edit'), edit_question_path(@question)
 p
