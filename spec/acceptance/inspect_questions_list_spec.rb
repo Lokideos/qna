@@ -7,7 +7,6 @@ feature 'Inspect question list', %q{
 } do 
 
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
   given!(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'Authenticated user check questions list' do
@@ -16,6 +15,10 @@ feature 'Inspect question list', %q{
 
     expect(page).to have_content "Questions List"
     expect(page).to have_content('Test Question', count: 3)
+    questions.each do |question|
+      expect(page).to have_content question.title
+      expect(page).not_to have_content(question.title, count: 2)
+    end
   end
 
   scenario 'Non-authenticated user check questions list' do
@@ -23,6 +26,10 @@ feature 'Inspect question list', %q{
 
     expect(page).to have_content "Questions List"
     expect(page).to have_content('Test Question', count: 3)
+    questions.each do |question|
+      expect(page).to have_content question.title
+      expect(page).not_to have_content(question.title, count: 2)
+    end
   end
   
 end

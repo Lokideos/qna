@@ -13,10 +13,14 @@ feature 'Inspect answers list', %q{
   scenario 'Authenticated user check answers list' do
     sign_in(user)    
     visit question_path(question)
-    
+
     expect(page).to have_content question.title
     expect(page).to have_content question.body
     expect(page).to have_content('MyText', count: 3)
+    answers.each do |answer|
+      expect(page).to have_content answer.body
+      expect(page).not_to have_content(answer.body, count: 2)
+    end
   end
 
   scenario 'Non-authenticated user check answers list' do
@@ -25,7 +29,10 @@ feature 'Inspect answers list', %q{
     expect(page).to have_content question.title
     expect(page).to have_content question.body
     expect(page).to have_content('MyText', count: 3)
+    answers.each do |answer|
+      expect(page).to have_content answer.body
+      expect(page).not_to have_content(answer.body, count: 2)
+    end
   end
   
 end
-
