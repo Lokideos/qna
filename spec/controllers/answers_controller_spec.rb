@@ -24,7 +24,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
-        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)        
+        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)        
       end
 
       it 'saves the new answer and its association to correct user' do
@@ -48,7 +48,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) } }.to_not change(Answer, :count)
       end
 
-      it 'redirects to question show view with error flash notice' do
+      it 'render question show view' do
         post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) }
         expect(response).to render_template ('questions/show')
       end
@@ -85,7 +85,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to eq correct_body
       end
 
-      it 'redirect to related quesiton view and show flash error message' do
+      it 'render related quesiton view' do
         patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
         expect(response).to render_template ('questions/show')
       end
@@ -101,10 +101,10 @@ RSpec.describe AnswersController, type: :controller do
       before { controller.stub(:current_user).and_return (user) }
 
       it 'deletes answer' do
-        expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(question.answers, :count).by(-1)
       end
 
-      it 'redirects to related question view' do
+      it 'render related question view' do
         delete :destroy, params: { question_id: question.id, id: answer }
         expect(response).to redirect_to question_path(assigns(:question))        
       end
@@ -116,7 +116,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { question_id: question.id, id: answer } }.not_to change(Answer, :count)
       end
 
-      it 'redirects to related question view' do
+      it 'render related question view' do
         delete :destroy, params: { question_id: question.id, id: answer }
         expect(response).to render_template ('questions/show')
       end
