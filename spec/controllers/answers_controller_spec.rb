@@ -50,8 +50,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question show view with error flash notice' do
         post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) }
-        expect(response).to redirect_to question_path(assigns(:question))
-        expect(flash[:error]).to be_present
+        expect(response).to render_template ('questions/show')
       end
     end
   end
@@ -88,8 +87,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to related quesiton view and show flash error message' do
         patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
-        expect(response).to redirect_to question_path(assigns(:question))
-        expect(flash[:error]).to be_present
+        expect(response).to render_template ('questions/show')
       end
     end
   end
@@ -120,7 +118,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to related question view' do
         delete :destroy, params: { question_id: question.id, id: answer }
-        expect(response).to redirect_to question_path(assigns(:question))        
+        expect(response).to render_template ('questions/show')
       end
     end
 

@@ -13,8 +13,7 @@ class AnswersController < ApplicationController
       flash[:success] = "Answer was created."
       redirect_to question_path(@question)
     else
-      redirect_to question_path(@question)
-      flash[:error] = error_msg(@answer)
+      render 'questions/show'
     end
   end
 
@@ -23,8 +22,7 @@ class AnswersController < ApplicationController
       flash[:success] = "Answer was updated."
       redirect_to question_path(@question)
     else
-      redirect_to question_path(@question)
-      flash[:error] = error_msg(@answer)
+      render 'questions/show'
     end
   end
 
@@ -34,8 +32,7 @@ class AnswersController < ApplicationController
       flash[:success] = "Answer was deleted."
       redirect_to question_path(@question)
     else
-      redirect_to question_path(@question)
-      flash[:error] = error_msg(@answer)
+      render 'questions/show'
     end
   end
 
