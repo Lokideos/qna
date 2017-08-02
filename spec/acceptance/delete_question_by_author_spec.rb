@@ -13,8 +13,7 @@ feature 'Delete questions only by author', %q{
   scenario 'Authenticated user tries to delete his question' do
     sign_in(author)
     visit questions_path
-    expect(page).to have_content question.title
-    click_on "Delete"    
+    click_on "Delete Question"    
 
     expect(page).to_not have_content question.title
     expect(current_path).to eq questions_path
@@ -24,15 +23,13 @@ feature 'Delete questions only by author', %q{
     sign_in(non_author)
     
     visit questions_path
-    expect(page).to have_content question.title 
-    expect(page).to_not have_content "Delete"
+    expect(page).to_not have_content "Delete Question"
   end
 
   scenario 'Non-authenticated user tries to delete question' do
     visit questions_path
-
-    expect(page).to have_content question.title
-    expect(page).to_not have_content "Delete"
+    
+    expect(page).to_not have_content "Delete Question"
   end
 
 end
