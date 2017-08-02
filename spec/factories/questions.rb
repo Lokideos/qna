@@ -7,17 +7,11 @@ FactoryGirl.define do
     title
     body "MyQuestionText"
     user
+
+    factory :invalid_question do
+      title nil
+      body nil
+    end
   end
 
-  factory :question_without_user do
-    title
-    body "Question Without User"
-  end
-
-
-  factory :invalid_question, class: "Question" do
-    title nil
-    body nil
-    user
-  end
 end

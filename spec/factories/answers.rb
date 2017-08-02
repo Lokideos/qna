@@ -4,11 +4,12 @@ FactoryGirl.define do
     sequence(:body) { |n| "MyText#{n}"}
     question
     user
-  end
 
-  factory :invalid_answer, class: "Answer" do
-    body nil
-    question
-    user
+    factory :invalid_answer do
+      body nil
+      question
+      user
+    end
   end
+    
 end
