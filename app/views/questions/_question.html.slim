@@ -3,7 +3,12 @@ tr
     = question.title
   td
     = link_to t('common.show'), question_path(question)
-  td
-    = link_to t('common.edit'), edit_question_path(question)
-  td
-    = link_to t('common.delete'), question, method: :delete, data: { confirm: t('common.confirmation') }
+
+  - if current_user&.author_of?(question)
+
+      td
+        = link_to t('common.edit'), edit_question_path(question)
+    
+      td      
+        = link_to t('questions.common.delete'), question, method: :delete, data: { confirm: t('common.confirmation') }
+  

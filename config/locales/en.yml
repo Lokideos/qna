@@ -38,6 +38,9 @@ en:
     back: "Back"
     create: "Create"
     change: "Change"
+    sign_out: "Sign Out"
+    sign_in: "Sign In"
+    errors: ' were found in the data you typed in.'
   welcome:
     index:
       title: "Welcome to Q&A web-site"
@@ -45,18 +48,25 @@ en:
       show_question_action: "Show Questions"
       new_question_action: "Add Question"
   questions:
+    common:
+      delete: 'Delete Question'
     index:
-      title: "Questions"
+      title: "Questions List"
       quesiton_name: "Question title"
-      new_question_action: "New Question"      
+      new_question_action: "Ask question"      
     new:
       title: "New Question"
     show:
       title: "Question %{question_name}"
       new_answer_action: "New Answer"
+      answer_non_authenticated: "You have to log in to the system to be able to create answers."
     form:
       submit: '%{action} Question'
   answers:
+    common:
+      add_new: 'Add New'
+      edit: 'Edit'
+      delete: 'Delete Answer'
     index:
       title: "Answers"
       answer_name: "Answer title"
@@ -65,4 +75,5 @@ en:
     show:
       title: "Answer Details"
     form:
+      text_name: '%{description} Answer'      
       submit: '%{action} Answer'

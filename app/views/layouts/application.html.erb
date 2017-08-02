@@ -9,6 +9,21 @@
   </head>
 
   <body>
+
+  <% if user_signed_in? %>
+    <p><%= link_to t('common.sign_out'), destroy_user_session_path, method: :delete %></p>
+  <% else %>
+    <p><%= link_to t('common.sign_in'), new_user_session_path %></p>
+  <% end %>
+
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <p>
+    <%= flash[:success] unless flash[:success].blank? %>
+    <%= flash[:error] unless flash[:error].blank? %>
+  </p>
+
+
     <%= yield %>
   </body>
 </html>

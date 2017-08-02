@@ -35,6 +35,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'slim-rails'
 gem 'rails-controller-testing'
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -63,4 +64,5 @@ end
 
 group :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'launchy'
 end

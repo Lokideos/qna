@@ -1,48 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:answer) { create(:answer) }
-  let(:question) { create(:question) }
-
-  describe 'GET #index' do    
-    let(:answers) { question; create_list(:answer, 2) }
-
-    before { get :index, params: { question_id: question.id } }
-
-    it 'populates array array of all answers to this questions' do      
-      expect(assigns(:answers)).to match_array(answers)
-    end
-
-    it 'render index view' do      
-      expect(response).to render_template :index
-    end
-  end
-
-  describe 'GET #show' do
-    before { get :show, params: { question_id: question.id, id: answer } }
-
-    it 'assign the requested answer to @answer' do      
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'render show view' do      
-      expect(response).to render_template :show
-    end
-  end
-
-  describe 'GET #new' do
-    before { get :new, params: { question_id: question.id } }
-
-    it 'assigns a new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'render new view' do
-      expect(response).to render_template :new
-    end
-  end
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, user: user, question: question) }
 
   describe 'GET #edit' do
+    sign_in_user
+
     before { get :edit, params: { question_id: question.id, id: answer } }
 
     it 'assign the requested answer to @answer' do      
@@ -55,9 +20,15 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)        
+      end
+
+      it 'saves the new answer and its association to correct user' do
+        expect { post :create, params: { question_id: question.id, answer:attributes_for(:answer) } }.to change(@user.answers, :count).by(1)        
       end
 
       it 'saves the new answer and its association to correct question' do
@@ -65,9 +36,10 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).question_id).to eq question.id
       end
 
-      it 'redirects to show view' do
+      it 'redirects to question show view with success flash notice' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
         expect(response).to redirect_to question_path(assigns(:question))
+        expect(flash[:success]).to be_present
       end
     end
 
@@ -76,14 +48,16 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) } }.to_not change(Answer, :count)
       end
 
-      it 're-render new view' do
+      it 'redirects to question show view with error flash notice' do
         post :create, params: { question_id: question.id, answer: attributes_for(:invalid_answer) }
-        expect(response).to render_template :new
+        expect(response).to render_template ('questions/show')
       end
     end
   end
 
   describe 'PATCH #update' do
+    sign_in_user
+
     context 'with valid attributes' do
       it 'assigns the requestesd answer to @answer' do
         patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer) }
@@ -98,34 +72,55 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to the updated answer' do        
         patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer) }
-        expect(response).to redirect_to question_answer_path(assigns(:answer))
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } } }
 
       it 'does not change answer attributes' do
+        correct_body = answer.body
+        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
         answer.reload
-        expect(answer.body).to eq 'MyText'
+        expect(answer.body).to eq correct_body
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it 'redirect to related quesiton view and show flash error message' do
+        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }
+        expect(response).to render_template ('questions/show')
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    sign_in_user
+
     before { answer }
 
-    it 'deletes answer' do
-      expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(Answer, :count).by(-1)
+    context 'with valid author' do
+      before { controller.stub(:current_user).and_return (user) }
+
+      it 'deletes answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to related question view' do
+        delete :destroy, params: { question_id: question.id, id: answer }
+        expect(response).to redirect_to question_path(assigns(:question))        
+      end
+    end
+    
+    context 'with invalid author' do
+
+      it 'not deletes answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer } }.not_to change(Answer, :count)
+      end
+
+      it 'redirects to related question view' do
+        delete :destroy, params: { question_id: question.id, id: answer }
+        expect(response).to render_template ('questions/show')
+      end
     end
 
-    it 'redirects to related question view' do
-      delete :destroy, params: { question_id: question.id, id: answer }
-      expect(response).to redirect_to question_answers_path
-    end
   end
 end
