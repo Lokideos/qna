@@ -20,6 +20,23 @@ feature 'User answer', %q{
     within '.answers' do 
       expect(page).to have_content 'My answer'
     end
+    expect(page).to have_content 'Answer was created'
+  end
+
+  scenario 'Authenticated user creates answer with invalid parameters', js: true do 
+    sign_in(user)
+    visit question_path(question)
+
+    fill_in "Add New Answer", with: nil
+    click_on 'Create Answer'
+
+    expect(page).to have_content "Data for your answer contained 1 error: Body can't be blank"
+  end
+
+  scenario 'Non-authenticated user tries to create answer', js: true do
+    visit question_path(question)
+        
+    expect(page).to have_content 'You have to log in to the system to be able to create answers.'
   end
 
 end
