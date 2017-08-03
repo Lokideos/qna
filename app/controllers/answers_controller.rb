@@ -6,15 +6,15 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create    
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    
-    if @answer.save
-      flash[:success] = "Answer was created."
-      redirect_to question_path(@question)
-    else
-      render 'questions/show'
-    end
+    @answer.save
+    # if @answer.save
+    #   flash[:success] = "Answer was created."
+    #   redirect_to question_path(@question)
+    # else
+    #   render 'questions/show'
+    # end
   end
 
   def update
