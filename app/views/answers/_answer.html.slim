@@ -1,6 +1,5 @@
 tr
   td
-    div id="answer-#{answer.id}"
       = answer.body  
       - if current_user&.author_of?(answer) && answer.persisted?
           br

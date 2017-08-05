@@ -9,20 +9,26 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user    
     if @answer.save
-      flash[:success] = "Answer was created."    
+      flash.now[:notice] = "Answer was created."    
+    else
+      flash.now[:notice] = "Answer was not created."
     end
   end
 
   def update
     if @answer.update(answer_params)
-      flash[:success] = "Answer was updated."    
+      flash.now[:notice] = "Answer was updated."    
+    else
+      flash.now[:notice] = "Answer was not created."
     end
   end
 
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:success] = "Answer was deleted."    
+      flash.now[:notice] = "Answer was deleted."
+    else
+      flash.now[:notice] = "Answer was not created."
     end
   end
 

@@ -10,7 +10,7 @@ RSpec.describe AnswersController, type: :controller do
 
     before { get :edit, params: { question_id: question.id, id: answer } }
 
-    it 'assign the requested answer to @answer' do      
+    it 'assign the requested answer to @answer', js: true do      
       expect(assigns(:answer)).to eq answer
     end
 
