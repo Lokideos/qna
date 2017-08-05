@@ -1,38 +1,34 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: [:edit, :update, :destroy]
+  before_action :set_answer, only: [:update, :destroy]
   before_action :set_question
 
   def edit; end
 
   def create    
     @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    
+    @answer.user = current_user    
     if @answer.save
-      flash[:success] = "Answer was created."
-      redirect_to question_path(@question)
+      flash.now[:notice] = "Answer was created."    
     else
-      render 'questions/show'
+      flash.now[:notice] = "Answer was not created."
     end
   end
 
   def update
     if @answer.update(answer_params)
-      flash[:success] = "Answer was updated."
-      redirect_to question_path(@question)
+      flash.now[:notice] = "Answer was updated."    
     else
-      render 'questions/show'
+      flash.now[:notice] = "Answer was not created."
     end
   end
 
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:success] = "Answer was deleted."
-      redirect_to question_path(@question)
+      flash.now[:notice] = "Answer was deleted."
     else
-      render 'questions/show'
+      flash.now[:notice] = "Answer was not created."
     end
   end
 

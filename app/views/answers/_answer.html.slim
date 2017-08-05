@@ -1,8 +1,8 @@
 tr
   td
-    = answer.body  
-    - if current_user&.author_of?(answer) && answer.persisted?
-        br
-        = link_to t('common.edit'), edit_question_answer_path(@question, answer)
-        br
-        = link_to t('answers.common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation') }
+      = answer.body  
+      - if current_user&.author_of?(answer) && answer.persisted?
+          br
+          = link_to t('common.edit'), edit_question_answer_path(@question, answer)
+          br
+          = link_to t('answers.common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation') }

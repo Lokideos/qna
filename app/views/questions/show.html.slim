@@ -4,10 +4,13 @@ h3
 p
   = @question.body
 
-table
-  thead
-  tbody
-    = render @question.answers
+.flash_show
+
+.answers
+  table
+    thead
+    tbody
+        = render @question.answers
 
 - if current_user
   = render 'answers/form', question: @question, answer: @answer
