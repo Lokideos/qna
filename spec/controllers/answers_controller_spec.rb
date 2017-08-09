@@ -5,20 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let!(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, user: user, question: question) }
 
-  describe 'GET #edit' do
-    sign_in_user
-
-    before { get :edit, params: { question_id: question.id, id: answer } }
-
-    it 'assign the requested answer to @answer', js: true do      
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'render edit view' do      
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     sign_in_user
 
