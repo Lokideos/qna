@@ -31,7 +31,7 @@ feature 'User answer', %q{
     fill_in "Add New Answer", with: nil
     click_on 'Create Answer'
 
-    expect(page).to have_content "Answer was not created."
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user tries to create answer', js: true do
