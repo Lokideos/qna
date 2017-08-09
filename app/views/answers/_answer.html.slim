@@ -1,5 +1,6 @@
 tr
-  td
+  td    
+    div[class = "answer-#{answer.id}"]
       = answer.body
       - if current_user&.author_of?(answer) && answer.persisted?
         = render 'answers/form', question: @question, answer: answer
