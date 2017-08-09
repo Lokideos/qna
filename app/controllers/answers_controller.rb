@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_answer, only: [:update, :destroy]
-  before_action :set_question
+  before_action :set_question, only: [:create, :destroy]
 
   def edit; end
 
@@ -16,10 +16,11 @@ class AnswersController < ApplicationController
   end
 
   def update
+    @question = @answer.question
     if @answer.update(answer_params)
       flash.now[:notice] = "Answer was updated."    
     else
-      flash.now[:notice] = "Answer was not created."
+      flash.now[:notice] = "Answer was not updated."
     end
   end
 
@@ -28,7 +29,7 @@ class AnswersController < ApplicationController
       @answer.destroy
       flash.now[:notice] = "Answer was deleted."
     else
-      flash.now[:notice] = "Answer was not created."
+      flash.now[:notice] = "Answer was not deleted."
     end
   end
 
