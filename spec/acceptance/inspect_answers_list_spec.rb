@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Inspect answers list', %q{
   In order to check answers to the question

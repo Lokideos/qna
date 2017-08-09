@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Delete questions only by author', %q{
   To keep my questions
