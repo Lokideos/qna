@@ -3,8 +3,6 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: [:update, :destroy]
   before_action :set_question, only: [:create, :destroy]
 
-  def edit; end
-
   def create    
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user    
@@ -18,7 +16,7 @@ class AnswersController < ApplicationController
   def update
     @question = @answer.question
     if @answer.update(answer_params)
-      flash.now[:notice] = "Answer was updated."    
+      flash.now[:notice] = "Answer was updated."
     else
       flash.now[:notice] = "Answer was not updated."
     end
