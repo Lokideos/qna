@@ -5,9 +5,10 @@ feature 'Answer editing', %q{
   As an author of the answer
   I want to be able to edit my answer
 } do
-  given(:user) { create(:user) }
+  given(:author) { create(:user) }
+  given(:non_author) { create(:user) }
   given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: author) }
 
   scenario 'Non-authenticated user tries to edit the question' do
     visit question_path(question)
@@ -17,7 +18,7 @@ feature 'Answer editing', %q{
 
   describe 'Authenticated user' do
     before do
-      sign_in(user)
+      sign_in(author)
       visit question_path(question)
     end
 
@@ -41,5 +42,12 @@ feature 'Answer editing', %q{
     end
   end  
 
-  scenario "Authenticated user tries to edit other user's question"
+  scenario "Authenticated user tries to edit other user's question", js: true do
+    sign_in(non_author)
+    visit question_path(question)
+    save_and_open_page
+    within '.answers' do
+      expect(page).to_not have_link 'Edit'
+    end
+  end
 end
