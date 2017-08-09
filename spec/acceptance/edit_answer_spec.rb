@@ -42,10 +42,9 @@ feature 'Answer editing', %q{
     end
   end  
 
-  scenario "Authenticated user tries to edit other user's question", js: true do
+  scenario "Authenticated user tries to edit other user's answer", js: true do
     sign_in(non_author)
     visit question_path(question)
-    save_and_open_page
     within '.answers' do
       expect(page).to_not have_link 'Edit'
     end
