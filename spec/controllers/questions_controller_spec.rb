@@ -131,6 +131,18 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :edit
       end
     end
+
+    context 'with invalid user' do
+      let(:other_user_question) { create(:question, user: user) }
+
+      it 'does not change quesiton attributes' do
+        correct_title = other_user_question.title
+        correct_body = other_user_question.body
+        patch :update, params: { id: other_user_question, question: { title: 'new title', body: 'new body' } }
+        expect(other_user_question.title).to eq correct_title
+        expect(other_user_question.body).to eq correct_body
+      end
+    end
   end
 
   describe 'DELETE #destroy' do
