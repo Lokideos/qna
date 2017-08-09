@@ -42,31 +42,32 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     sign_in_user
+    let(:answer_current_user) { create(:answer, user: @user, question: question)}
 
     context 'with valid attributes' do
       it 'assigns the requestesd answer to @answer' do
-        patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer), format: :js }
-        expect(assigns(:answer)).to eq answer
+        patch :update, params: { question_id: question.id, id: answer_current_user, answer: attributes_for(:answer), format: :js }
+        expect(assigns(:answer)).to eq answer_current_user
       end
 
       it 'assigns the right question' do
-        patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer), format: :js }
+        patch :update, params: { question_id: question.id, id: answer_current_user, answer: attributes_for(:answer), format: :js }
         expect(assigns(:question)).to eq question
       end
 
       it 'assigns the right user' do
-        patch :update, params: { question_id: question.id, id: answer, answer: { user: user }, format: :js }
-        expect(answer.user).to eq user
+        patch :update, params: { question_id: question.id, id: answer_current_user, answer: { user: @user }, format: :js }
+        expect(answer_current_user.user).to eq @user
       end
 
       it 'changes answer attributes' do
-        patch :update, params: { question_id: question.id, id: answer, answer: { body: 'new body' }, format: :js }
-        answer.reload
-        expect(answer.body).to eq 'new body'
+        patch :update, params: { question_id: question.id, id: answer_current_user, answer: { body: 'new body' }, format: :js }
+        answer_current_user.reload
+        expect(answer_current_user.body).to eq 'new body'
       end
 
       it 'render update template' do        
-        patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer), format: :js }
+        patch :update, params: { question_id: question.id, id: answer_current_user, answer: attributes_for(:answer), format: :js }
         expect(response).to render_template :update
       end
     end
@@ -74,14 +75,14 @@ RSpec.describe AnswersController, type: :controller do
     context 'with invalid attributes' do
 
       it 'does not change answer attributes' do
-        correct_body = answer.body
-        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil }, format: :js }
-        answer.reload
-        expect(answer.body).to eq correct_body
+        correct_body = answer_current_user.body
+        patch :update, params: { question_id: question.id, id: answer_current_user, answer: { body: nil }, format: :js }
+        answer_current_user.reload
+        expect(answer_current_user.body).to eq correct_body
       end
 
       it 'render update template' do
-        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil }, format: :js }
+        patch :update, params: { question_id: question.id, id: answer_current_user, answer: { body: nil }, format: :js }
         expect(response).to render_template :update
       end
     end

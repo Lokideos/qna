@@ -94,24 +94,25 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    sign_in_user
+    sign_in_user    
+    let(:question2) { create(:question, user: @user) }
 
     context 'with valid attributes' do
       it 'assigns the requested question to @questions' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(assigns(:question)).to eq question
+        patch :update, params: { id: question2, question: attributes_for(:question) }
+        expect(assigns(:question)).to eq question2
       end
 
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
-        question.reload
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
+        patch :update, params: { id: question2, question: { title: 'new title', body: 'new body'} }
+        question2.reload
+        expect(question2.title).to eq 'new title'
+        expect(question2.body).to eq 'new body'
       end
 
       it 'redirects to the updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+        patch :update, params: { id: question2, question: attributes_for(:question) }
+        expect(response).to redirect_to question2
       end
     end
 
@@ -127,7 +128,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 're-renders edit view' do
-        patch :update, params: { id: question, question: { title: 'new title', body: nil } }
+        patch :update, params: { id: question2, question: { title: 'new title', body: nil } }
         expect(response).to render_template :edit
       end
     end
@@ -139,6 +140,7 @@ RSpec.describe QuestionsController, type: :controller do
         correct_title = other_user_question.title
         correct_body = other_user_question.body
         patch :update, params: { id: other_user_question, question: { title: 'new title', body: 'new body' } }
+        other_user_question.reload
         expect(other_user_question.title).to eq correct_title
         expect(other_user_question.body).to eq correct_body
       end

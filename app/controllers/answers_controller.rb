@@ -15,7 +15,8 @@ class AnswersController < ApplicationController
 
   def update
     @question = @answer.question
-    if @answer.update(answer_params)
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
       flash.now[:notice] = "Answer was updated."
     else
       flash.now[:notice] = "Answer was not updated."
