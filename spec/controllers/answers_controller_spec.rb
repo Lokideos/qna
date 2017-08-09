@@ -49,9 +49,14 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer)).to eq answer
       end
 
-      it 'assigns the question' do
+      it 'assigns the right question' do
         patch :update, params: { question_id: question.id, id: answer, answer: attributes_for(:answer), format: :js }
         expect(assigns(:question)).to eq question
+      end
+
+      it 'assigns the right user' do
+        patch :update, params: { question_id: question.id, id: answer, answer: { user: user }, format: :js }
+        expect(answer.user).to eq user
       end
 
       it 'changes answer attributes' do
@@ -78,6 +83,18 @@ RSpec.describe AnswersController, type: :controller do
       it 'render update template' do
         patch :update, params: { question_id: question.id, id: answer, answer: { body: nil }, format: :js }
         expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid user' do
+      sign_in_user
+      let(:other_user_answer) { create(:answer, question_id: question.id, user: user) }
+
+      it 'does not change answer attributes' do
+        correct_body = other_user_answer.body
+        patch :update, params: { question_id: question, id: other_user_answer, answer: { body: 'wrong body' }, format: :js }
+        answer.reload
+        expect(other_user_answer.body).to eq correct_body
       end
     end
   end
