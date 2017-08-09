@@ -87,13 +87,11 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid user' do
-      sign_in_user
       let(:other_user_answer) { create(:answer, question_id: question.id, user: user) }
 
       it 'does not change answer attributes' do
         correct_body = other_user_answer.body
         patch :update, params: { question_id: question, id: other_user_answer, answer: { body: 'wrong body' }, format: :js }
-        answer.reload
         expect(other_user_answer.body).to eq correct_body
       end
     end
