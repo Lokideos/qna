@@ -5,5 +5,5 @@
 <% else %>
   $(".flash_show").html("<%= flash[:notice] %>");
   $('.answers').append('<%= j render @answer %>');
-  $('#answer_body').val('')
+  $('.new_answer_form').val('')
 <% end %>
