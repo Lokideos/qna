@@ -1,6 +1,6 @@
 var ready;
 ready = function() {
-  $('.edit-answer-link').click(function(e) {
+  $(document).on('click', '.edit-answer-link', function(e) {
     e.preventDefault();
     
     $(this).hide();
