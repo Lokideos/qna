@@ -6,6 +6,12 @@ p
 
 .flash_show
 
+h3 Best answer
+
+.best-answer
+
+
+h3 Answers section
 .answers
   table
     thead
@@ -13,7 +19,8 @@ p
         = render @question.answers
 
 - if current_user
-  = render 'answers/form', question: @question, answer: @answer
+  .post_new_answer
+    = render 'answers/form', question: @question, answer: @answer
 - else
   h3
     = t('.answer_non_authenticated')

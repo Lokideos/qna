@@ -1,0 +1,8 @@
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.answer-errors').html('<%= j message %>');
+  <% end %>
+<% else %>
+  $('.best-answer').html('');
+  $('.best-answer').html('<%= j render @answer %>');
+<% end %>

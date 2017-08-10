@@ -1,7 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: [:update, :destroy]
+  before_action :set_answer, only: [:update, :destroy, :choose_best]
   before_action :set_question, only: [:create]
+  before_action :set_associated_question, only: [:update, :destroy, :choose_best]
 
   def create    
     @answer = @question.answers.new(answer_params)
@@ -14,7 +15,6 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @question = @answer.question
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
       flash.now[:notice] = "Answer was updated."
@@ -24,12 +24,18 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question = @answer.question
     if current_user.author_of?(@answer)
       @answer.destroy
       flash.now[:notice] = "Answer was deleted."
     else
       flash.now[:notice] = "Answer was not deleted."
+    end
+  end
+
+  def choose_best
+    if current_user.author_of?(@question)
+      @answer.choose_best_answer(@answer)
+      render :choose_best
     end
   end
 
@@ -41,6 +47,10 @@ class AnswersController < ApplicationController
 
   def set_question
     @question = Question.find(params[:question_id])
+  end
+
+  def set_associated_question
+    @question = @answer.question
   end
 
   def answer_params
