@@ -27,5 +27,15 @@ RSpec.describe Answer, type: :model do
 
   context "Validations" do
     it { should validate_presence_of :body }
+
+    it "should validate uniquness of best answer" do
+      user = create(:user)
+      question = create(:question, user: user)
+      answer = create(:answer, question: question, user: user, best_answer: true)
+      answer2 = create(:answer, question: question, user: user)
+
+      answer2.update(best_answer: true)
+      expect(answer2).to_not be_valid
+    end
   end
 end
