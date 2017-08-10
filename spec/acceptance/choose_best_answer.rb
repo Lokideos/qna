@@ -53,6 +53,7 @@ feature 'Choose Best answer', %q{
     end
 
     within '.best-answer' do
+      expect(page).to_not have_content answer3.body
       expect(page).to have_content answer2.body
     end
   end
