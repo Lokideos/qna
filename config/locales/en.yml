@@ -67,6 +67,7 @@ en:
       add_new: 'Add New'
       edit: 'Edit'
       delete: 'Delete Answer'
+      best: 'Best Answer'
     index:
       title: "Answers"
       answer_name: "Answer title"
