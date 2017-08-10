@@ -2,8 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
 
-  it { should belong_to :question }
-  it { should belong_to :user }
+  context "Associations" do
+    it { should belong_to :question }
+    it { should belong_to :user }
+  end
 
-  it { should validate_presence_of :body }
+  context "Validations" do
+    it { should validate_presence_of :body }
+  end
 end

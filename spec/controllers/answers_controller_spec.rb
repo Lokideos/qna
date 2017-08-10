@@ -45,7 +45,7 @@ RSpec.describe AnswersController, type: :controller do
     let(:answer_current_user) { create(:answer, user: @user, question: question)}
 
     context 'with valid attributes' do
-      it 'assigns the requestesd answer to @answer' do
+      it 'assigns the requested answer to @answer' do
         patch :update, params: { question_id: question.id, id: answer_current_user, answer: attributes_for(:answer), format: :js }
         expect(assigns(:answer)).to eq answer_current_user
       end
@@ -126,6 +126,42 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :destroy
       end
     end
-
   end
+
+  describe 'PATCH #choose_best' do      
+    
+    context "with valid author" do
+      sign_in_user
+      let!(:question_of_current_user) { create(:question, user: @user) }
+      let!(:answer2) { create(:answer, user: @user, question: question_of_current_user) }
+
+      it "changes answer's best_answer attribute" do
+        patch :choose_best, params: { question_id: question_of_current_user, id: answer2, format: :js }
+        answer2.reload
+        expect(answer2.best_answer).to eq true
+      end
+
+      it "render related quesiton view" do
+        patch :choose_best, params: { question_id: question_of_current_user, id: answer2, format: :js }
+        expect(response).to render_template :choose_best
+      end
+    end
+
+    context "with invalid author" do
+      sign_in_user
+      let!(:question_of_another_user) { create(:question, user: user) }
+      let!(:answer2) { create(:answer, user: @user, question: question_of_another_user) }
+
+      it "not changes answer's best_answer attribute" do
+        patch :choose_best, params: { question_id: question_of_another_user, id: answer2, format: :js }
+        answer2.reload
+        expect(answer2.best_answer).to eq false
+      end
+
+      it "render related quesiton view" do
+        patch :choose_best, params: { question_id: question_of_another_user, id: answer2, format: :js }
+        expect(response).to render_template :choose_best
+      end        
+    end
+  end  
 end
