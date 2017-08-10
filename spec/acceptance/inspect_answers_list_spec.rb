@@ -17,7 +17,6 @@ feature 'Inspect answers list', %q{
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    save_and_open_page
     expect(page).to have_content('MyText', count: 3)
     answers.each do |answer|
       expect(page).to have_content answer.body
