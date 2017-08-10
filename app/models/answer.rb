@@ -7,10 +7,14 @@ class Answer < ApplicationRecord
 
   def choose_best_answer(answer)
     question = answer.question
-    question.answers.each do |answer|
-        answer.update(best_answer: false)
+    Answer.transaction do
+      if question.answers.exists?(best_answer: true)
+        old_answer = question.answers.find_by(best_answer: true)
+        old_answer.best_answer = false
+      end
+      
+      answer.update(best_answer: true)
     end
-    answer.update(best_answer: true)
   end
 
   private
