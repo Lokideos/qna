@@ -10,7 +10,7 @@ class Answer < ApplicationRecord
     Answer.transaction do
       if question.answers.exists?(best_answer: true)
         old_answer = question.answers.find_by(best_answer: true)
-        old_answer.best_answer = false
+        old_answer.update(best_answer: false)
       end
       
       answer.update(best_answer: true)
@@ -20,14 +20,8 @@ class Answer < ApplicationRecord
   private
 
   def only_one_answer_can_be_best
-    best_answers = 0
-
-    self.question.answers.each do |answer|
-      best_answers += 1 if answer.best_answer == true
-    end
-
-    if best_answers > 1
+    if self.question.answers.where(best_answer: true).length > 1
       errors.add(:best_answer, "have to be unique for each question")
-    end
+    end    
   end
 end
