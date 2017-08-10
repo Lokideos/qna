@@ -11,12 +11,13 @@ feature 'Inspect answers list', %q{
   given(:question) { create(:question, user: user) }
   given!(:answers) { create_list(:answer, 3, user: user, question: question) }
 
-  scenario 'Authenticated user check answers list' do
+  scenario 'Authenticated user check answers list', js: true do
     sign_in(user)    
     visit question_path(question)
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
+    save_and_open_page
     expect(page).to have_content('MyText', count: 3)
     answers.each do |answer|
       expect(page).to have_content answer.body
@@ -24,7 +25,7 @@ feature 'Inspect answers list', %q{
     end
   end
 
-  scenario 'Non-authenticated user check answers list' do
+  scenario 'Non-authenticated user check answers list', js: true do
     visit question_path(question)
 
     expect(page).to have_content question.title
