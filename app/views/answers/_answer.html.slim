@@ -7,4 +7,4 @@ tr
         br
         = link_to t('common.edit'), '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
-        = link_to t('answers.common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation') }
+        = link_to t('answers.common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation'), answer_id: answer.id }, remote: true

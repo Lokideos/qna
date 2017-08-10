@@ -98,35 +98,34 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  # describe 'DELETE #destroy' do
-  #   sign_in_user
+  describe 'DELETE #destroy' do
+    sign_in_user
+    let!(:answer_of_user) { create(:answer, question: question, user: @user) }
 
-  #   before { answer }
+    context 'with valid author' do
 
-  #   context 'with valid author' do
-  #     before { controller.stub(:current_user).and_return (user) }
+      it 'deletes answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer_of_user, format: :js } }.to change(question.answers, :count).by(-1)
+      end
 
-  #     it 'deletes answer' do
-  #       expect { delete :destroy, params: { question_id: question.id, id: answer, format: :js } }.to change(question.answers, :count).by(-1)
-  #     end
-
-  #     it 'render related question view' do
-  #       delete :destroy, params: { question_id: question.id, id: answer, format: :js }
-  #       expect(response).to redirect_to question_path(assigns(:question))        
-  #     end
-  #   end
+      it 'render related question view' do
+        delete :destroy, params: { question_id: question.id, id: answer_of_user, format: :js }
+        expect(response).to render_template :destroy
+      end
+    end
     
-  #   context 'with invalid author' do
+    context 'with invalid author' do
+      let!(:answer_of_another_user) { create(:answer, user: user) }
 
-  #     it 'not deletes answer' do
-  #       expect { delete :destroy, params: { question_id: question.id, id: answer, format: :js } }.not_to change(Answer, :count)
-  #     end
+      it 'not deletes answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer_of_another_user, format: :js } }.not_to change(Answer, :count)
+      end
 
-  #     it 'render related question view' do
-  #       delete :destroy, params: { question_id: question.id, id: answer, format: :js }
-  #       expect(response).to render_template ('questions/show')
-  #     end
-    # end
+      it 'render related question view' do
+        delete :destroy, params: { question_id: question.id, id: answer_of_another_user, format: :js }
+        expect(response).to render_template :destroy
+      end
+    end
 
-  # end
+  end
 end

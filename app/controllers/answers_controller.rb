@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_answer, only: [:update, :destroy]
-  before_action :set_question, only: [:create, :destroy]
+  before_action :set_question, only: [:create]
 
   def create    
     @answer = @question.answers.new(answer_params)
@@ -24,6 +24,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
+    @question = @answer.question
     if current_user.author_of?(@answer)
       @answer.destroy
       flash.now[:notice] = "Answer was deleted."
