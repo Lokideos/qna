@@ -32,7 +32,14 @@ RSpec.describe Answer, type: :model do
   end
 
   context "Validations" do
-    it { should validate_presence_of :body }
+
+    it "should validate presence of body" do
+      user = create(:user)
+      question = create(:question, user: user)
+      answer = create(:answer, question: question, user: user)
+
+      expect(answer.body).to_not eq nil
+    end
 
     it "should validate uniquness of best answer" do
       user = create(:user)
