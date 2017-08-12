@@ -10,10 +10,10 @@ class Answer < ApplicationRecord
     Answer.transaction do
       if question.answers.exists?(best_answer: true)
         old_answer = question.answers.find_by(best_answer: true)
-        old_answer.update(best_answer: false)
+        old_answer.update!(best_answer: false)
       end
       
-      answer.update(best_answer: true)
+      answer.update!(best_answer: true)
     end
   end
 
