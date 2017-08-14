@@ -38,6 +38,8 @@ gem 'slim-rails'
 gem 'rails-controller-testing'
 gem 'devise'
 gem 'jquery-rails'
+gem 'carrierwave'
+gem 'remotipart'
 
 
 group :development, :test do
