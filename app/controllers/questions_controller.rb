@@ -12,9 +12,14 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
-  def edit; end
+  def edit
+    if current_user.author_of?(@question)
+      @question.attachments.build
+    end
+  end
 
   def create
     @question = Question.create(question_params)
@@ -56,6 +61,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
 end
