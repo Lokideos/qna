@@ -1,4 +1,5 @@
 require "rails_helper"
+require_relative 'acceptance_helper'
 
 feature 'User answer', %q{
   In order to exchange my knowledge
@@ -30,7 +31,7 @@ feature 'User answer', %q{
     fill_in "Add New Answer", with: nil
     click_on 'Create Answer'
 
-    expect(page).to have_content "Data for your answer contained 1 error: Body can't be blank"
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user tries to create answer', js: true do

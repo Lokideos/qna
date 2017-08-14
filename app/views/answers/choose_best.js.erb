@@ -3,7 +3,6 @@
     $('.answer-errors').html('<%= j message %>');
   <% end %>
 <% else %>
-  $(".flash_show").html("<%= flash[:notice] %>");
-  $('.answers').append('<%= j render @answer %>');
-  $('.new_answer_form').val('')
+  $('.best-answer').html('');
+  $('.best-answer').html('<%= j render @answer %>');
 <% end %>

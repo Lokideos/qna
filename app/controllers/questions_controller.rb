@@ -14,8 +14,7 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def edit    
-  end
+  def edit; end
 
   def create
     @question = Question.create(question_params)
@@ -29,10 +28,14 @@ class QuestionsController < ApplicationController
   end
 
   def update   
-    if @question.update(question_params)
-      redirect_to @question
+    if current_user.author_of?(@question)
+      if @question.update(question_params)
+        redirect_to @question
+      else
+        render :edit
+      end
     else
-      render :edit
+      render :index
     end
   end
 

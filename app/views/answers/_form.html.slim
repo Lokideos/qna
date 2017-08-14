@@ -1,4 +1,4 @@
-= form_for [question, answer], remote: true do |f|  
+= form_for [question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|  
 
   = render 'common/error_check', resource: answer
 
@@ -6,7 +6,9 @@
     br
     = f.label :body, t('.text_name', description: @answer.new_record? ? t('answers.common.add_new') : t('answers.common.edit'))
     br
-    = f.text_area :body
+    .answer-errors
+    br
+    = f.text_area :body, class: "new_answer_form"
 
   div.actions
     = f.submit t('.submit', action: @answer.new_record? ? t('common.create') : t('common.change'))

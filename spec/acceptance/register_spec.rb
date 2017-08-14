@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Sign Up', %q{
   In order to ask questions and add answers

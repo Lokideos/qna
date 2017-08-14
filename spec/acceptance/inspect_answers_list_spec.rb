@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Inspect answers list', %q{
   In order to check answers to the question
@@ -10,7 +11,7 @@ feature 'Inspect answers list', %q{
   given(:question) { create(:question, user: user) }
   given!(:answers) { create_list(:answer, 3, user: user, question: question) }
 
-  scenario 'Authenticated user check answers list' do
+  scenario 'Authenticated user check answers list', js: true do
     sign_in(user)    
     visit question_path(question)
 
@@ -23,7 +24,7 @@ feature 'Inspect answers list', %q{
     end
   end
 
-  scenario 'Non-authenticated user check answers list' do
+  scenario 'Non-authenticated user check answers list', js: true do
     visit question_path(question)
 
     expect(page).to have_content question.title

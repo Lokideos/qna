@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Delete questions only by author', %q{
   To keep my questions
@@ -6,8 +7,8 @@ feature 'Delete questions only by author', %q{
   I want to be able to delete only mine questions
 } do
 
-  given!(:author){ create(:user) }
-  given!(:non_author){ create(:user) }
+  given(:author){ create(:user) }
+  given(:non_author){ create(:user) }
   given!(:question){ create(:question, user: author) }
 
   scenario 'Authenticated user tries to delete his question' do
