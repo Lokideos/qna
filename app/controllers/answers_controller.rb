@@ -15,11 +15,12 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@answer)
+    if current_user.author_of?(@answer)      
       @answer.update(answer_params)
       flash.now[:notice] = "Answer was updated."
     else
       flash.now[:notice] = "Answer was not updated."
+      render :update
     end
   end
 
@@ -54,7 +55,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, attachments_attributes: [:file])
   end
 
 end

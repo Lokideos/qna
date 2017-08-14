@@ -9,6 +9,11 @@
     .answer-errors
     br
     = f.text_area :body, class: "new_answer_form"
+    br
+    = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
+
 
   div.actions
     = f.submit t('.submit', action: @answer.new_record? ? t('common.create') : t('common.change'))

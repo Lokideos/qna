@@ -1,6 +1,7 @@
 class Answer < ApplicationRecord
   belongs_to :question
-  belongs_to :user  
+  belongs_to :user
+  has_many :attachments, as: :attachable, dependent: :destroy
 
   validates :body, presence: true
   validate :only_one_answer_can_be_best
@@ -17,6 +18,8 @@ class Answer < ApplicationRecord
     end
   end
 
+  accepts_nested_attributes_for :attachments
+  
   private
 
   def only_one_answer_can_be_best
