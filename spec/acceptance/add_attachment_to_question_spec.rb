@@ -1,6 +1,6 @@
 require_relative 'acceptance_helper'
 
-feature "User can add attachment to answer", %q{
+feature "Add attachment to question", %q{
   In order to clarify the question
   As question's author
   I'd like to be able to add attachments to my question
