@@ -1,6 +1,6 @@
 require_relative 'acceptance_helper'
 
-feature "Add attachment to question", %q{
+feature "Delete question's attachment", %q{
   In order to delete excessive details of the question
   As question's author
   I'd like to be able to delete my question's attachments
