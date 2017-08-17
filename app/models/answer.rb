@@ -20,7 +20,7 @@ class Answer < ApplicationRecord
 
   scope :ordered_by_creation, -> { order(created_at: :asc) }
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
   
   private
 

@@ -26,7 +26,7 @@ feature "Add attachment to answer", %q{
       end
 
       within ".answers" do
-        expect(page).to have_link "spec_helper.rb", href: "/uploads/attachment/file/1/spec_helper.rb"
+        expect(page).to have_link "spec_helper.rb"
       end
     end
   end
@@ -39,8 +39,31 @@ feature "Add attachment to answer", %q{
     end
 
     context "Authenticated user" do
-      scenario "tries to add attachment to his answer"
-      scenario "tries to add attachment to other's user answer"
-    end
+      given!(:answer) { create(:answer, question: question, user: author) }
+      given(:non_author) { create(:user) }
+
+      scenario "tries to add attachment to his answer", js: true do
+        sign_in(author)
+        visit question_path(question)
+
+        within ".answers" do
+          click_on "Edit"
+          click_on "add attachment"
+          attach_file "File", "#{Rails.root}/spec/spec_helper.rb"
+          click_on "Create Answer"
+
+          expect(page).to have_link "spec_helper.rb"
+        end
+      end
+
+      scenario "tries to add attachment to other's user answer" do
+        sign_in(non_author)
+        visit question_path(question)
+
+        within ".answers" do
+          expect(page).to_not have_content "Edit"          
+        end
+      end
+    end    
   end
 end
