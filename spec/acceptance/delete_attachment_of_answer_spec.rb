@@ -29,7 +29,7 @@ feature "Delete answer's attachment", %q{
         click_on "Create Answer"          
       end
 
-      expect(page).to_not have_content attachment.file.identifier
+      expect(page).to_not have_link attachment.file.url
     end
 
     scenario "tries to delete attachment from other user's answer", js: true do

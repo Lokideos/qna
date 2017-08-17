@@ -6,7 +6,7 @@ feature "Add attachment to answer", %q{
   I'd like to be able to add attachments to answer
 } do
   given(:author) { create(:user) }
-  given(:question) { create(:question, user: author) }  
+  given(:question) { create(:question, user: author) } 
 
   context "For new Answer" do
     scenario "Non-authenticated user tries to add attachment", js: true do

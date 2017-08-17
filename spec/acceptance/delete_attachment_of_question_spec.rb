@@ -26,7 +26,7 @@ feature "Delete question's attachment", %q{
       end
       click_on "Change Question"
       
-      expect(page).to_not have_content ".attachment-#{attachment.id}"
+      expect(page).to_not have_link attachment.file.url
     end
 
     scenario "tries to delete attachment from other user's question" do
