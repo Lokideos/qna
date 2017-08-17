@@ -18,6 +18,8 @@ class Answer < ApplicationRecord
     end
   end
 
+  scope :ordered_by_creation, -> { order(created_at: :asc) }
+
   accepts_nested_attributes_for :attachments
   
   private

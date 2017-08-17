@@ -15,14 +15,15 @@ h4 Attachments:
 h3 Best answer
 
 .best-answer
-  = @question.answers.find_by(best_answer: true).body
+  - if @question.answers.find_by(best_answer: true)
+    = @question.answers.find_by(best_answer: true).body
 
 h3 Answers section
 .answers
   table
     thead
     tbody
-        = render @question.answers
+        = render @question.answers.ordered_by_creation
 
 - if current_user
   .post_new_answer
