@@ -15,7 +15,9 @@
   h3 Attachments:
   div.attachments
     = f.fields_for :attachments do |attachment|
-      = render 'common/attachment_fields', f: attachment
+      - if attachment
+        div[class="attachment-#{attachment.object.id}"]
+          = render 'common/attachment_fields', f: attachment
     .links
       = link_to_add_association 'add attachment', f, :attachments,
         partial: 'common/attachment_fields'
