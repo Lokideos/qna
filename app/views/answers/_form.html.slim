@@ -12,9 +12,10 @@
     br
     div.attachments
       = f.fields_for :attachments do |attachment|
-        = render 'answers/attachment_fields', f: attachment
+        = render 'common/attachment_fields', f: attachment
       .links
-        = link_to_add_association 'add attachment', f, :attachments
+        = link_to_add_association 'add attachment', f, :attachments,
+          partial: 'common/attachment_fields'
 
 
   div.actions

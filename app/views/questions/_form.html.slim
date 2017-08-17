@@ -1,6 +1,6 @@
 = form_for question do |f|
 
-  = render '/common/error_check', resource: question
+  = render 'common/error_check', resource: question
   
   div.field
     = f.label :title
@@ -15,9 +15,10 @@
   h3 Attachments:
   div.attachments
     = f.fields_for :attachments do |attachment|
-      = render 'questions/attachment_fields', f: attachment
+      = render 'common/attachment_fields', f: attachment
     .links
-      = link_to_add_association 'add attachment', f, :attachments
+      = link_to_add_association 'add attachment', f, :attachments,
+        partial: 'common/attachment_fields'
 
   div.actions
     = f.submit t('.submit', action: @question.new_record? ? t('common.create') : t('common.change'))
