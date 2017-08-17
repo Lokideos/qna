@@ -6,6 +6,8 @@ feature "Add attachment to question", %q{
   I'd like to be able to add attachments to my question
 } do
   given(:author) { create(:user) }
+
+  
   
   context "For new question" do
     scenario "Non-authenticated user tries to add attachment to question" do
@@ -23,7 +25,7 @@ feature "Add attachment to question", %q{
       attach_file "File", "#{Rails.root}/spec/spec_helper.rb"
       click_on "Create Question"
 
-      expect(page).to have_link "spec_helper.rb", href: '/uploads/attachment/file/1/spec_helper.rb'
+      expect(page).to have_link "spec_helper.rb"
     end
   end
 
@@ -44,7 +46,7 @@ feature "Add attachment to question", %q{
         attach_file "File", "#{Rails.root}/spec/spec_helper.rb"
         click_on "Change Question"
 
-        expect(page).to have_link "spec_helper.rb", href: '/uploads/attachment/file/2/spec_helper.rb'
+        expect(page).to have_link "spec_helper.rb"
       end
 
       scenario "tries to add attachment to other user's question" do
@@ -54,5 +56,17 @@ feature "Add attachment to question", %q{
         expect(page).to_not have_content "File"
       end
     end
+  end
+
+  scenario "Authenticated user tries to add multiplie attachments to new question" do
+    sign_in(author)
+    visit new_question_path
+
+    fill_in "Title", with: "Test Question"
+    fill_in "Body", with: "Test Body"
+    attach_file "File", "#{Rails.root}/spec/spec_helper.rb"
+    click_on "Create Question"
+
+    expect(page).to have_link "spec_helper.rb"
   end
 end

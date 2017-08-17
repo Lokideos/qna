@@ -14,9 +14,10 @@
 
   h3 Attachments:
   div.attachments
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
+    = f.fields_for :attachments do |attachment|
+      = render 'questions/attachment_fields', f: attachment
+    .links
+      = link_to_add_association 'add attachment', f, :attachments
 
   div.actions
     = f.submit t('.submit', action: @question.new_record? ? t('common.create') : t('common.change'))
