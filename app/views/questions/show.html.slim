@@ -15,7 +15,7 @@ h4 Attachments:
 h3 Best answer
 
 .best-answer
-
+  = @question.answers.find_by(best_answer: true).body
 
 h3 Answers section
 .answers
