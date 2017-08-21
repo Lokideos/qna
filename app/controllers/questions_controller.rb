@@ -17,11 +17,7 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    if current_user.author_of?(@question)
-      @question.attachments.build
-    else
-      redirect_to question_path(@question)
-    end
+    @question.attachments.build if current_user.author_of?(@question)
   end
 
   def create
