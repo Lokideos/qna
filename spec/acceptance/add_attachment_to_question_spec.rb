@@ -58,15 +58,21 @@ feature "Add attachment to question", %q{
     end
   end
 
-  scenario "Authenticated user tries to add multiplie attachments to new question" do
+  scenario "Authenticated user tries to add multiplie attachments to new question", js: true do
     sign_in(author)
     visit new_question_path
 
     fill_in "Title", with: "Test Question"
     fill_in "Body", with: "Test Body"
     attach_file "File", "#{Rails.root}/spec/spec_helper.rb"
-    click_on "Create Question"
 
+    click_on 'add attachment'
+    within all('.nested-fields').last do
+      attach_file "File", "#{Rails.root}/spec/rails_helper.rb"
+    end      
+
+    click_on "Create Question"    
     expect(page).to have_link "spec_helper.rb"
-  end
+    expect(page).to have_link "rails_helper.rb"
+  end  
 end
