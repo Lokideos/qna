@@ -66,4 +66,24 @@ feature "Add attachment to answer", %q{
       end
     end    
   end
+
+  scenario "Authenticated user tries to add multiplie attachments to new answer", js: true do
+    sign_in(author)
+    visit question_path(question)
+
+    within ".post_new_answer" do
+      fill_in "Add New Answer", with: "Test Answer Body"
+      attach_file "File", "#{Rails.root}/spec/spec_helper.rb"
+      click_on 'add attachment'
+      within all('.nested-fields').last do
+        attach_file "File", "#{Rails.root}/spec/rails_helper.rb"
+      end  
+      click_on "Create Answer"
+    end
+        
+    within '.answers' do
+      expect(page).to have_link "spec_helper.rb"
+      expect(page).to have_link "rails_helper.rb"
+    end
+  end  
 end
