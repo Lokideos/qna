@@ -20,6 +20,7 @@ class AnswersController < ApplicationController
       flash.now[:notice] = "Answer was updated."
     else
       flash.now[:notice] = "Answer was not updated."
+      render :update
     end
   end
 
@@ -54,7 +55,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
   end
 
 end

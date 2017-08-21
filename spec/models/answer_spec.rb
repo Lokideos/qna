@@ -5,6 +5,7 @@ RSpec.describe Answer, type: :model do
   context "Associations" do
     it { should belong_to :question }
     it { should belong_to :user }
+    it { should have_many(:attachments).dependent(:destroy) }
   end
 
   context 'methods test' do
@@ -51,4 +52,6 @@ RSpec.describe Answer, type: :model do
       expect(answer2).to_not be_valid
     end
   end
+
+  it { should accept_nested_attributes_for :attachments }
 end

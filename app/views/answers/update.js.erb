@@ -4,4 +4,7 @@
   <% end %>
 <% else %>
   $('.answer-' + '<%= @answer.id %>').html('<%= j render @answer %>');
+  <% if @answer.best_answer %>
+    $('.best-answer').html('<%= j render @answer %>');
+  <% end %>
 <% end %>

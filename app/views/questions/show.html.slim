@@ -4,19 +4,26 @@ h3
 p
   = @question.body
 
+h4 Attachments:
+.attachments
+  ul
+    - @question.attachments.each do |a|
+      li = link_to a.file.identifier, a.file.url
+
 .flash_show
 
 h3 Best answer
 
 .best-answer
-
+  - if @question.answers.find_by(best_answer: true)
+    = @question.answers.find_by(best_answer: true).body
 
 h3 Answers section
 .answers
   table
     thead
     tbody
-        = render @question.answers
+        = render @question.answers.ordered_by_creation
 
 - if current_user
   .post_new_answer
