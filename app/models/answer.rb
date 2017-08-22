@@ -1,4 +1,5 @@
 class Answer < ApplicationRecord
+  include Ratable
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable, dependent: :destroy
@@ -24,8 +25,8 @@ class Answer < ApplicationRecord
   
   private
 
-  def only_one_answer_can_be_best
-    if self.question.answers.where(best_answer: true).length > 1
+  def only_one_answer_can_be_best    
+    if question && question.answers.where(best_answer: true).length > 1
       errors.add(:best_answer, "have to be unique for each question")
     end    
   end

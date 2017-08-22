@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
   before_action :set_question, only: [:create]
   before_action :set_associated_question, only: [:update, :destroy, :choose_best]
 
+  include Rated
+
   def create    
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user    
