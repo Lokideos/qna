@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     member do
       patch :rate_good
       patch :rate_bad
+      patch :cancel_rate
     end
   end
 

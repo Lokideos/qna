@@ -2,7 +2,7 @@ module Rated
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_item, only: [:rate_good, :rate_bad]
+    before_action :set_item, only: [:rate_good, :rate_bad, :cancel_rate]
   end
 
   def rate_good
@@ -12,6 +12,11 @@ module Rated
 
   def rate_bad
     @item.decrease_rating(current_user)
+    rate_responde(@item)
+  end
+
+  def cancel_rate
+    @item.nullify_rating(current_user)
     rate_responde(@item)
   end
 

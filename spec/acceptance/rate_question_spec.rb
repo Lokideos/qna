@@ -18,12 +18,25 @@ feature 'Rate question', %q{
       expect(page).to have_content "Question Rating: 1"
     end
 
-    scenario "tries to rate his question"
+    scenario "tries to rate his question", js: true do
+      # sign_in(author)
+      # visit question_path(question)
+
+      # expect(page).to_not have_content "Good Question"
+    end
+
+    scenario "tries to rate other user's question twice", js: true do
+      sign_in(non_author)
+      visit question_path(question)
+
+      click_on "Good Question"
+      expect(page).to have_content "Question Rating: 1"
+      expect(page).to_not have_content "Good Question"
+    end
   end
 
   scenario "Non-authenticated user tries to rate question" , js: true do
     visit question_path(question)
-    save_and_open_page
 
     expect(page).to_not have_content "Good Question"
   end

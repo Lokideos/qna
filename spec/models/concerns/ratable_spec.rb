@@ -20,7 +20,9 @@ describe 'ratable' do
     expect(WithRatable.create!.decrease_rating(user).value).to eq -1
   end
 
-  # it { should have_many(:ratings).dependent(:destroy) }
+  it "nullify_rating" do
+    expect(WithRatable.create!.nullify_rating(user)).to eq nil
+  end
 
   it "should have many ratings" do
     association = WithRatable.reflect_on_association(:ratings)
