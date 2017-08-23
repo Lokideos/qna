@@ -18,6 +18,14 @@ shared_examples "Rated" do
       expect(rating.value).to eq -1
     end
   end
+
+  describe 'PATCH #cancel_rate' do
+    it "changes rating's value" do 
+      patch :cancel_rate, params: { id: rating, format: :js}
+      rating.reload
+      expect(rating).to eq nil
+    end
+  end
 end
 
 describe QuestionsController, type: :controller do
