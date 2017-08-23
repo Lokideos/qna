@@ -23,6 +23,17 @@ feature 'Rate answer', %q{
       end
     end
     scenario "tries to rate his answer"
+
+    scenario "tries to rate other user's answer twice", js: true do
+      sign_in(non_author)
+      visit question_path(question)
+
+      within '.answers' do
+        click_on 'Good Answer'
+
+        expect(page).to_not have_content "Good Answer"
+      end
+    end
   end
 
   scenario "Non-authenticated user tries to rate answer", js: true do

@@ -11,15 +11,31 @@ ready = function() {
   $('a.rate-good-answer').bind('ajax:success', function (e, data, status, xhr) {
     var rating = $.parseJSON(xhr.responseText);
     var answerId = $(this).data('answerId');
-    $('.answer-rating-' + answerId).html('');
-    $('.answer-rating-' + answerId).html('<p>Answer Rating: ' + rating + '</p>');
+    $('.answer-rating-value-' + answerId).html('');
+    $('.answer-rating-value-' + answerId).html('<p>Answer Rating: ' + rating + '</p>');
+    $('.rating-saved-vote-answer-' + answerId).hide();
+    $('.rating-options-vote-answer-' + answerId).hide();
+    $('.rating-options-cancel-answer-' + answerId).show();
   });
 
   $('a.rate-bad-answer').bind('ajax:success', function (e, data, status, xhr) {
     var rating = $.parseJSON(xhr.responseText);
     var answerId = $(this).data('answerId');
-    $('.answer-rating-' + answerId).html('');
-    $('.answer-rating-' + answerId).html('<p>Answer Rating: ' + rating + '</p>');
+    $('.answer-rating-value-' + answerId).html('');
+    $('.answer-rating-value-' + answerId).html('<p>Answer Rating: ' + rating + '</p>');
+    $('.rating-saved-vote-answer-' + answerId).hide();
+    $('.rating-options-vote-answer-' + answerId).hide();
+    $('.rating-options-cancel-answer-' + answerId).show();
+  });
+
+  $('a.cancel-rate-answer').bind('ajax:success', function (e, data, status, xhr) {
+    var rating = $.parseJSON(xhr.responseText);
+    var answerId = $(this).data('answerId');
+    $('.answer-rating-value-' + answerId).html('');
+    $('.answer-rating-value-' + answerId).html('<p>Answer Rating: ' + rating + '</p>');
+    $('.rating-saved-cancel-answer-' + answerId).hide();
+    $('.rating-options-cancel-answer-' + answerId).hide();
+    $('.rating-options-vote-answer-' + answerId).show();
   });
 };
 $(document).ready(ready);
