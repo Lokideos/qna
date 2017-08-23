@@ -10,7 +10,7 @@ h4 Rating
     p = "Question Rating: #{@question.ratings.sum(:value)}"
   
   .rating_options
-  - if current_user
+  - if current_user&.not_author_of?(@question)
     - if @question.rating?(current_user)
       .rating_saved_cancel
         = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true

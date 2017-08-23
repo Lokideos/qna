@@ -10,4 +10,8 @@ class User < ApplicationRecord
   def author_of?(item)
     id == item.user_id
   end
+
+  def not_author_of?(item)
+    id != item.user_id
+  end
 end

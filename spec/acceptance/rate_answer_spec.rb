@@ -22,7 +22,14 @@ feature 'Rate answer', %q{
         expect(page).to have_content "Answer Rating: 1"
       end
     end
-    scenario "tries to rate his answer"
+    scenario "tries to rate his answer", js: true do
+      sign_in(author)
+      visit question_path(question)
+
+      within '.answers' do
+        expect(page).to_not have_content "Good Answer"
+      end
+    end
 
     scenario "tries to rate other user's answer twice", js: true do
       sign_in(non_author)

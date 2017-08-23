@@ -19,10 +19,10 @@ feature 'Rate question', %q{
     end
 
     scenario "tries to rate his question", js: true do
-      # sign_in(author)
-      # visit question_path(question)
+      sign_in(author)
+      visit question_path(question)
 
-      # expect(page).to_not have_content "Good Question"
+      expect(page).to_not have_content "Good Question"
     end
 
     scenario "tries to rate other user's question twice", js: true do
