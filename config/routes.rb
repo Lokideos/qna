@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :answers, except: [:index, :new, :show] do
       patch :choose_best, on: :member
     end
+    resources :answers, concerns: [:ratable]
   end
 
   resources :questions, concerns: [:ratable]

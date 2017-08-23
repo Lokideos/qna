@@ -2,6 +2,12 @@ tr
   td    
     div[class = "answer-#{answer.id}"]
       = answer.body
+      div[class = "answer-rating-#{answer.id}"]
+        p = "Answer Rating: #{answer.ratings.sum(:value)}"
+        - if current_user
+          = link_to 'Good Answer', rate_good_question_answer_path(@question, answer), method: :patch, class: 'rate-good-answer', data: { type: :json, answer_id: answer.id }, remote: true
+          br
+          = link_to 'Bad Answer', rate_bad_question_answer_path(@question, answer), method: :patch, class: 'rate-bad-answer', data: { type: :json, answer_id: answer.id }, remote: true
 
       - if answer.persisted?
         ul

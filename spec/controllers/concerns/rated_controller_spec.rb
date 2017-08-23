@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-shared_examples "Rated entity" do
+shared_examples "Rated" do
   let(:rating) { create(:rating, value: 0)}
   
   describe 'PATCH #rate_good' do
@@ -21,5 +21,9 @@ shared_examples "Rated entity" do
 end
 
 describe QuestionsController, type: :controller do
-  it_behaves_like "Rated entity"
+  it_behaves_like "Rated"
+end
+
+describe AnswersController, type: :controller do
+  it_behaves_like "Rated"
 end
