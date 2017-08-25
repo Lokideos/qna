@@ -7,7 +7,7 @@ tr
           p = "Answer Rating: #{answer.ratings.sum(:value)}"
         div[class = "answer-rating-actions-#{answer.id}"]
         - if current_user&.not_author_of?(answer)
-          - if answer.rating?(current_user)
+          - if answer.rating_current_user(current_user)
             div[class = "rating-saved-cancel-answer-#{answer.id}"]
               = link_to 'Cancel Answer Rate', cancel_rate_question_answer_path(@question, answer), method: :patch, class: 'cancel-rate-answer', data: { type: :json, answer_id: answer.id }, remote: true
           - else

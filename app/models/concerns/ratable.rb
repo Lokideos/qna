@@ -5,7 +5,7 @@ module Ratable
     has_many :ratings, as: :ratable, dependent: :destroy
 
     def add_rating(user)
-      rate = rating?(user)
+      rate = rating_current_user(user)
 
       if rate
         rate.update!(value: 1)
@@ -15,7 +15,7 @@ module Ratable
     end
 
     def decrease_rating(user)
-      rate = rating?(user)
+      rate = rating_current_user(user)
 
       if rate
         rate.update!(value: -1)
@@ -25,14 +25,14 @@ module Ratable
     end
 
     def nullify_rating(user)
-      rate = rating?(user)
+      rate = rating_current_user(user)
 
       if rate
         rate.destroy
       end
     end
 
-    def rating?(user)
+    def rating_current_user(user)
       self.ratings.where(user: user).first
     end
 
