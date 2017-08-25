@@ -17,14 +17,14 @@ h4 Rating
 
     - else
       .rating_saved_vote
-        = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'rate-good-question', data: { type: :json }, remote: true
+        = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
         br
-        = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'rate-bad-question', data: { type: :json }, remote: true
+        = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
 
     .rating_options_vote
-      = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'rate-good-question', data: { type: :json }, remote: true
+      = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
       br
-      = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'rate-bad-question', data: { type: :json }, remote: true    
+      = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true    
 
     .rating_options_cancel
       = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true
