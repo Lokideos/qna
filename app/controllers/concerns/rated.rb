@@ -8,29 +8,29 @@ module Rated
   def rate_good
     if current_user.not_author_of?(@item)
       @item.add_rating(current_user)
-      rate_responde(@item)
+      rate_responde
     end
   end
 
   def rate_bad
     if current_user.not_author_of?(@item)
       @item.decrease_rating(current_user)
-      rate_responde(@item)
+      rate_responde
     end
   end
 
   def cancel_rate
     if current_user.not_author_of?(@item)
       @item.nullify_rating(current_user)
-      rate_responde(@item)
+      rate_responde
     end
   end
 
   private
 
-  def rate_responde(rated_item)
+  def rate_responde
     respond_to do |format|
-      format.json { render json: rated_item.ratings.sum(:value) }
+      format.json { render json: @item.ratings.sum(:value) }
     end
   end
 
