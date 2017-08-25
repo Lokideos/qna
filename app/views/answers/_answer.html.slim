@@ -12,17 +12,17 @@ tr
               = link_to 'Cancel Answer Rate', cancel_rate_question_answer_path(@question, answer), method: :patch, class: 'cancel-rate-answer', data: { type: :json, answer_id: answer.id }, remote: true
           - else
             div[class = "rating-saved-vote-answer-#{answer.id}"]
-              = link_to 'Good Answer', rate_good_question_answer_path(@question, answer), method: :patch, class: 'rate-good-answer', data: { type: :json, answer_id: answer.id }, remote: true
+              = link_to 'Good Answer', rate_good_question_answer_path(@question, answer), method: :patch, class: 'change-rate-answer', data: { type: :json, answer_id: answer.id }, remote: true
               br
-              = link_to 'Bad Answer', rate_bad_question_answer_path(@question, answer), method: :patch, class: 'rate-bad-answer', data: { type: :json, answer_id: answer.id }, remote: true
+              = link_to 'Bad Answer', rate_bad_question_answer_path(@question, answer), method: :patch, class: 'change-rate-answer', data: { type: :json, answer_id: answer.id }, remote: true
 
           div[class = "rating-options-cancel-answer-#{answer.id}"]
             = link_to 'Cancel Answer Rate', cancel_rate_question_answer_path(@question, answer), method: :patch, class: 'cancel-rate-answer', data: { type: :json, answer_id: answer.id }, remote: true
 
           div[class = "rating-options-vote-answer-#{answer.id}"]
-            = link_to 'Good Answer', rate_good_question_answer_path(@question, answer), method: :patch, class: 'rate-good-answer', data: { type: :json, answer_id: answer.id }, remote: true
+            = link_to 'Good Answer', rate_good_question_answer_path(@question, answer), method: :patch, class: 'change-rate-answer', data: { type: :json, answer_id: answer.id }, remote: true
             br
-            = link_to 'Bad Answer', rate_bad_question_answer_path(@question, answer), method: :patch, class: 'rate-bad-answer', data: { type: :json, answer_id: answer.id }, remote: true
+            = link_to 'Bad Answer', rate_bad_question_answer_path(@question, answer), method: :patch, class: 'change-rate-answer', data: { type: :json, answer_id: answer.id }, remote: true
 
       - if answer.persisted?
         ul
