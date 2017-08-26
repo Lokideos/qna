@@ -6,21 +6,21 @@ module Rated
   end
 
   def rate_good
-    if current_user.not_author_of?(@item)
+    if !current_user.author_of?(@item)
       @item.add_rating(current_user)
       rate_responde
     end
   end
 
   def rate_bad
-    if current_user.not_author_of?(@item)
+    if !current_user.author_of?(@item)
       @item.decrease_rating(current_user)
       rate_responde
     end
   end
 
   def cancel_rate
-    if current_user.not_author_of?(@item)
+    if @item.ratings.find_by(user: current_user)
       @item.nullify_rating(current_user)
       rate_responde
     end
