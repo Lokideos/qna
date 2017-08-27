@@ -1,8 +1,11 @@
 require 'rails_helper'
+require_relative 'concerns/rated_controller'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+  
+  it_behaves_like "Rated"
 
   describe 'GET #index' do    
     let(:questions) { user; create_list(:question, 2) }
