@@ -5,7 +5,49 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   
-  it_behaves_like "Rated"
+  describe 'PATCH #rate_good' do
+    sign_in_user
+
+    it "creates new good rating" do
+      expect(question.ratings.first).to eq nil
+      patch :rate_good, params: { id: question, format: :json }
+      question.reload
+      expect(question.ratings.first).to_not eq nil
+    end
+
+    it "changes rating's value" do
+      patch :rate_good, params: { id: question, format: :json }
+      question.reload
+      expect(question.ratings.first.value).to eq 1
+    end
+  end
+
+  describe 'PATCH #rate_bad' do
+    sign_in_user
+
+    it "creates new bad rating" do
+      expect(question.ratings.first).to eq nil
+      patch :rate_bad, params: { id: question, format: :json }
+      question.reload
+      expect(question.ratings.first).to_not eq nil
+    end
+    
+    it "changes rating's value" do 
+      patch :rate_bad, params: { id: question, format: :json }
+      question.reload
+      expect(question.ratings.first.value).to eq -1
+    end
+  end
+
+  describe 'PATCH #cancel_rate' do
+    sign_in_user
+
+    it "changes rating's value" do
+      patch :cancel_rate, params: { id: question, format: :json }      
+      question.reload
+      expect(question.ratings.first).to eq nil
+    end
+  end
 
   describe 'GET #index' do    
     let(:questions) { user; create_list(:question, 2) }
