@@ -4,6 +4,31 @@ h3
 p
   = @question.body
 
+h4 Rating
+.rating
+  .current_rating
+    p = "Question Rating: #{@question.ratings.sum(:value)}"
+  
+  .rating_options
+  - if current_user && !current_user.author_of?(@question)
+    - if @question.rating_current_user(current_user)
+      .rating_saved_cancel
+        = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true
+
+    - else
+      .rating_saved_vote
+        = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
+        br
+        = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
+
+    .rating_options_vote
+      = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
+      br
+      = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true    
+
+    .rating_options_cancel
+      = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true
+
 h4 Attachments:
 .attachments
   ul

@@ -50,6 +50,7 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'database_cleaner'
   gem 'capybara-webkit'
+  gem "with_model"
 end
 
 group :development do
