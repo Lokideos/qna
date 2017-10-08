@@ -4,7 +4,7 @@ tr
   td
     = link_to t('common.show'), question_path(question)
 
-  - if current_user&.author_of?(question)
+  - if @current_user&.author_of?(question)
 
       td
         = link_to t('common.edit'), edit_question_path(question)

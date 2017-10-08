@@ -3,6 +3,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
+  before_action :set_user
+  after_action :publish_question, only: [:create]
 
   include Rated
 
@@ -59,11 +61,28 @@ class QuestionsController < ApplicationController
 
   private
 
+  def set_user
+    @current_user = current_user
+  end
+
   def load_question
     @question = Question.find(params[:id])
   end
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: %i[id file _destroy])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast(
+      'questions',
+
+      ApplicationController.render(
+        partial: 'questions/question',
+        locals: { question: @question }
+      )
+    )
   end
 end
