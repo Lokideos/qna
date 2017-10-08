@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -25,7 +27,7 @@ module Qna
                        controller_specs: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
 
-    config.i18n.default_locale = :en
+      config.i18n.default_locale = :en
     end
   end
 end

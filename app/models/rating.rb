@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rating < ApplicationRecord
   belongs_to :ratable, polymorphic: true, optional: true
   belongs_to :user

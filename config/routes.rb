@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   concern :ratable do
     member do
@@ -9,7 +11,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :questions do
-    resources :answers, except: [:index, :new, :show] do
+    resources :answers, except: %i[index new show] do
       patch :choose_best, on: :member
     end
     resources :answers, concerns: [:ratable]

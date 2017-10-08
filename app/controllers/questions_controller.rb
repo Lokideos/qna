@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :load_question, only: %i[show edit update destroy]
 
   include Rated
 
@@ -33,7 +35,7 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def update   
+  def update
     if current_user.author_of?(@question)
       if @question.update(question_params)
         redirect_to @question
@@ -62,6 +64,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
+    params.require(:question).permit(:title, :body, attachments_attributes: %i[id file _destroy])
   end
 end

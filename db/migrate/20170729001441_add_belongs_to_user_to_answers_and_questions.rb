@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBelongsToUserToAnswersAndQuestions < ActiveRecord::Migration[5.1]
   def change
     add_belongs_to :answers, :user, index: true

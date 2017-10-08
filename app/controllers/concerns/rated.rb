@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 module Rated
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_item, only: [:rate_good, :rate_bad, :cancel_rate]
+    before_action :set_item, only: %i[rate_good rate_bad cancel_rate]
   end
 
   def rate_good
-    if !current_user.author_of?(@item)
+    unless current_user.author_of?(@item)
       @item.add_rating(current_user)
       rate_responde
     end
   end
 
   def rate_bad
-    if !current_user.author_of?(@item)
+    unless current_user.author_of?(@item)
       @item.decrease_rating(current_user)
       rate_responde
     end

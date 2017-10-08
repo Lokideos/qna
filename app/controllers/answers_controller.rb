@@ -1,27 +1,29 @@
+# frozen_string_literal: true
+
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: [:update, :destroy, :choose_best]
+  before_action :set_answer, only: %i[update destroy choose_best]
   before_action :set_question, only: [:create]
-  before_action :set_associated_question, only: [:update, :destroy, :choose_best]
+  before_action :set_associated_question, only: %i[update destroy choose_best]
 
   include Rated
 
-  def create    
+  def create
     @answer = @question.answers.new(answer_params)
-    @answer.user = current_user    
-    if @answer.save
-      flash.now[:notice] = "Answer was created."    
-    else
-      flash.now[:notice] = "Answer was not created."
-    end
+    @answer.user = current_user
+    flash.now[:notice] = if @answer.save
+                           'Answer was created.'
+                         else
+                           'Answer was not created.'
+                         end
   end
 
   def update
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
-      flash.now[:notice] = "Answer was updated."
+      flash.now[:notice] = 'Answer was updated.'
     else
-      flash.now[:notice] = "Answer was not updated."
+      flash.now[:notice] = 'Answer was not updated.'
       render :update
     end
   end
@@ -29,9 +31,9 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash.now[:notice] = "Answer was deleted."
+      flash.now[:notice] = 'Answer was deleted.'
     else
-      flash.now[:notice] = "Answer was not deleted."
+      flash.now[:notice] = 'Answer was not deleted.'
     end
   end
 
@@ -57,7 +59,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
+    params.require(:answer).permit(:body, attachments_attributes: %i[id file _destroy])
   end
-
 end

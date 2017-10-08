@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ratable
   extend ActiveSupport::Concern
 
@@ -27,14 +29,11 @@ module Ratable
     def nullify_rating(user)
       rate = rating_current_user(user)
 
-      if rate
-        rate.destroy
-      end
+      rate&.destroy
     end
 
     def rating_current_user(user)
-      self.ratings.where(user: user).first
+      ratings.where(user: user).first
     end
-
   end
 end

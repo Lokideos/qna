@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Question < ApplicationRecord
   include Ratable
   has_many :answers, dependent: :destroy
