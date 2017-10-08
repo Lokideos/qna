@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end
