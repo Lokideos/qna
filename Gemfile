@@ -38,12 +38,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'carrierwave'
 gem 'cocoon'
 gem 'devise'
+gem 'gon'
 gem 'jquery-rails'
 gem 'rails-controller-testing'
 gem 'remotipart'
-gem 'slim-rails'
 gem 'skim'
-gem 'gon'
+gem 'slim-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

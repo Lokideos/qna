@@ -10,6 +10,7 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+    @current_user = current_user
   end
 
   def show
@@ -28,11 +29,11 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.create(question_params)
-    @question.user_id = current_user.id
-    gon.user = current_user
+    @question.user_id = current_user.id    
 
     if @question.save
-      redirect_to @question, notice: 'Your question successfully created.'
+      redirect_to questions_path
+      # redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
     end
@@ -66,6 +67,12 @@ class QuestionsController < ApplicationController
     @current_user = current_user
   end
 
+  def show_details
+    @show_head = true
+    @show_head = false if current_user != @question.user_id
+    @show_head
+  end
+
   def load_question
     @question = Question.find(params[:id])
   end
@@ -80,9 +87,9 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast(
       'questions',
 
-      ApplicationController.render(
+      ApplicationController.render( # json: @question)
         partial: 'questions/question',
-        locals: { question: @question }
+        locals: { question: @question, current_user: current_user }
       )
     )
   end

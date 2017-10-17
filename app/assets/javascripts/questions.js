@@ -30,9 +30,19 @@ ready = function() {
     ,
 
     received: function(data) {
+      // var parsed_question = JSON.parse(data);
+      // var table = document.getElementById("questions-list");
+      // var row = table.insertRow(-1);
+      // var cell1 = row.insertCell(0);
+      // var cell2 = row.insertCell(1);
+      // var cell3 = row.insertCell(2);
+      // var cell4 = row.insertCell(3);
+      // return cell1.innerHTML = parsed_question.title;
+      // return questionsList.append(parsed_question.title);
       return questionsList.append(data);
     }
   });  
 };
 
 $(document).on('turbolinks:load', ready);
+

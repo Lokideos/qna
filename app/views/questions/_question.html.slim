@@ -1,14 +1,22 @@
 tr
-  td
+  td.title
     = question.title
-  td
+  td.link-show-question
     = link_to t('common.show'), question_path(question)
 
-  - if @current_user&.author_of?(question)
+  - if @current_user && @current_user.id == question.user_id
 
-      td
-        = link_to t('common.edit'), edit_question_path(question)
+    td.link-edit
+      = link_to t('common.edit'), edit_question_path(question)
+
+    td.link-delete      
+      = link_to t('questions.common.delete'), question, method: :delete, data: { confirm: t('common.confirmation') }
+
+  / - if @current_user&.author_of?(question)
+
+  /     td
+  /       = link_to t('common.edit'), edit_question_path(question)
     
-      td      
-        = link_to t('questions.common.delete'), question, method: :delete, data: { confirm: t('common.confirmation') }
+  /     td      
+  /       = link_to t('questions.common.delete'), question, method: :delete, data: { confirm: t('common.confirmation') }
   
