@@ -1,5 +1,4 @@
 var ready;
-var webs;
 
 ready = function() {
   var questionsList;
@@ -36,22 +35,4 @@ ready = function() {
   });  
 };
 
-// webs = function() {
-//   App.cable.subscriptions.create('QuestionsChannel', {
-//     connected: function() {
-//       console.log('Connected!');
-//       return this.perform('follow');
-//     }
-//     ,
-
-//     received: function(data) {
-//       return questionsList.append(data);
-//     }
-//   });
-// };
-
-$(document).ready(ready);
 $(document).on('turbolinks:load', ready);
-// $(document).ready(webs);
-// $(document).on('turbolinks:load', webs);
-
