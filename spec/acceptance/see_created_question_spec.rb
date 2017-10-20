@@ -1,4 +1,4 @@
-require 'acceptance_helper'
+require_relative 'acceptance_helper'
 
 feature 'see created question', :js do
   given(:user) { create(:user) }

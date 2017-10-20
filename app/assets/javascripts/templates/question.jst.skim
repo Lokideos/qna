@@ -1,0 +1,17 @@
+- question_id = @data['id']
+- question_title = @data['title']
+- question_user_id = @data['user_id']
+
+tr
+  td.title
+    = question_title
+  td
+    a href="/questions/#{question_id}" data-type='html'
+      |Show
+  - if gon.current_user_id && (gon.current_user_id == question_user_id)
+    td
+      a href="/questions/#{question_id}/edit" data-type='html'
+        |Edit
+    td
+      a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/questions/#{question_id}"
+        |Delete Question

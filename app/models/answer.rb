@@ -28,7 +28,7 @@ class Answer < ApplicationRecord
   private
 
   def only_one_answer_can_be_best
-    if question&.answers&.where(best_answer: true)&.length > 1
+    if question && question.answers.where(best_answer: true).length > 1
       errors.add(:best_answer, 'have to be unique for each question')
     end
   end

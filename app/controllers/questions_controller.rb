@@ -3,7 +3,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
-  before_action :set_user
   after_action :publish_question, only: [:create]
 
   include Rated
@@ -29,11 +28,10 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.create(question_params)
-    @question.user_id = current_user.id    
+    @question.user_id = current_user.id
 
     if @question.save
-      redirect_to questions_path
-      # redirect_to @question, notice: 'Your question successfully created.'
+      redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
     end
@@ -63,16 +61,6 @@ class QuestionsController < ApplicationController
 
   private
 
-  def set_user
-    @current_user = current_user
-  end
-
-  def show_details
-    @show_head = true
-    @show_head = false if current_user != @question.user_id
-    @show_head
-  end
-
   def load_question
     @question = Question.find(params[:id])
   end
@@ -87,10 +75,7 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast(
       'questions',
 
-      ApplicationController.render( # json: @question)
-        partial: 'questions/question',
-        locals: { question: @question, current_user: current_user }
-      )
+      ApplicationController.render(json: @question)
     )
   end
 end

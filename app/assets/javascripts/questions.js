@@ -30,7 +30,10 @@ ready = function() {
     ,
 
     received: function(data) {
-      // var parsed_question = JSON.parse(data);
+      var current_user_id = gon.current_user_id;      
+      var parsed_question = JSON.parse(data);
+      var question_user_id = parsed_question.user_id;            
+      return questionsList.append(JST["templates/question"]({ data: parsed_question}));
       // var table = document.getElementById("questions-list");
       // var row = table.insertRow(-1);
       // var cell1 = row.insertCell(0);
@@ -39,10 +42,9 @@ ready = function() {
       // var cell4 = row.insertCell(3);
       // return cell1.innerHTML = parsed_question.title;
       // return questionsList.append(parsed_question.title);
-      return questionsList.append(data);
+      // return questionsList.append(parsed_question.user_id);
     }
   });  
 };
 
 $(document).on('turbolinks:load', ready);
-
