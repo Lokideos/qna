@@ -1,6 +1,10 @@
 require_relative 'acceptance_helper'
 
-feature 'see created question', :js do
+feature 'see created question', %q{
+    In order to help other users
+    As a user
+    I want to be able to see newly created questions without updating the web page
+  }, :js do
   given(:user) { create(:user) }
 
   context "multiple sessions" do

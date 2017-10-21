@@ -1,6 +1,10 @@
 require_relative 'acceptance_helper'
 
-feature 'see created answer', :js do
+feature 'see created answer', %q{
+    In order to keep an eye on interesting topic
+    As a user
+    I want to be able to check new answers without updating the web page
+  }, :js do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
