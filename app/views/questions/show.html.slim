@@ -1,3 +1,6 @@
+.test
+  h3 Test
+
 .question data-id="#{@question.id}"
   h3
     = t('.title', question_name: @question.title)
@@ -37,6 +40,15 @@
         li = link_to a.file.identifier, a.file.url
 
   .flash_show
+
+  .question-comments
+
+    h3 Comments
+
+    = render 'comments/comments', resource: @question
+
+  .new-comments
+
 
   h3 Best answer
 

@@ -2,6 +2,8 @@
 
 class Question < ApplicationRecord
   include Ratable
+  include Commentable
+
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
   belongs_to :user

@@ -29,6 +29,9 @@ tr
           - answer.attachments.each do |a|
             li = link_to a.file.identifier, a.file.url
 
+      / .answer-comments        
+      /   = render 'comments/comments', question: @question, resource: answer
+
       - if current_user&.author_of?(answer) && answer.persisted?
         = render 'answers/form', question: @question, answer: answer
         br
@@ -40,3 +43,7 @@ tr
         = link_to t('answers.common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation'), answer_id: answer.id }, remote: true
   td
     div[class = "best-mark-#{answer.id}"]
+tr
+  td
+    div id ="answer-#{answer.id}-comments"
+      = render 'comments/comments', resource: answer
