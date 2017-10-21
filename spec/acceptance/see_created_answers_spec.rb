@@ -9,7 +9,7 @@ feature 'see created answer', %q{
   given(:question) { create(:question) }
 
   context "multiple sessions" do
-    scenario "question appears on another user's page" do
+    scenario "answer appears on another user's page" do
       Capybara.using_session('user') do
         sign_in(user)
         visit question_path(question)
