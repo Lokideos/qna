@@ -6,7 +6,6 @@ ready = function() {
       var question_id = $(".question").data("id");
 
       if (question_id) {
-        console.log("comments connected")
         this.perform('follow_comments', { id: question_id });
       } else {
         this.perform('unfollow');

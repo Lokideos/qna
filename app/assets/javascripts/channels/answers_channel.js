@@ -6,7 +6,6 @@ ready = function() {
     
   App.cable.subscriptions.create('AnswersChannel', {
     connected: function() {
-      console.log('Connected to answers channel!');
       var question_id = $('.question').data('id');
       
       if (question_id) {
