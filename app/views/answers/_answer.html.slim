@@ -40,3 +40,7 @@ tr
         = link_to t('answers.common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation'), answer_id: answer.id }, remote: true
   td
     div[class = "best-mark-#{answer.id}"]
+tr
+  td
+    div id ="answer-#{answer.id}-comments"
+      = render 'comments/comments', resource: answer

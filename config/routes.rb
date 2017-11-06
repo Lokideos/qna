@@ -9,17 +9,22 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users
-  resources :questions do
-    resources :answers, except: %i[index new show] do
-      patch :choose_best, on: :member
-    end
-    resources :answers, concerns: [:ratable]
+  concern :commentable do
+    resources :comments, only: [:create]
   end
 
-  resources :questions, concerns: [:ratable]
+  devise_for :users
+
+  resources :questions, concerns: %i[ratable commentable] do
+    resources :answers, concerns: %i[ratable commentable], except: %i[index new show] do
+      patch :choose_best, on: :member
+    end
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'welcome/index'
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end

@@ -1,0 +1,34 @@
+- answer =            @data['answer']
+- question_id =       @data['question_id']
+- question_user_id =  @data['quesiton_user_id']
+- answer_user_id =    @data['answer_user_id']
+- attachments =       @data['answer_attachments']
+- answer_rating =     @data['sum_ratings']
+
+tr
+  td
+    div[class = "answer-#{answer.id}"]
+      = answer.body
+      div[class = "answer-rating-#{answer.id}"]
+        div[class = "answer-rating-value-#{{answer.id}}"]
+          p = "Answer Rating: #{answer_rating}"
+        div[class = "answer-rating-actions-#{answer.id}"]
+          - if gon.current_user_id && gon.current_user_id != answer_user_id
+            div[class = "rating-saved-vote-answer-#{answer.id}"]
+              a class="change-rate-answer" data-type="json" data-answer-id="#{answer.id}" data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{question_id}/answers/#{answer.id}/rate_good"
+                |Good Answer
+
+              a class="change-rate-answer" data-type="json" data-answer-id="#{answer.id}" data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{question_id}/answers/#{answer.id}/rate_bad"
+                |Bad Answer
+
+    - if attachments.length
+      ul
+        - $.each attachments, (index, file) =>
+          li
+            a href="#{file.file_url}" #{file.file_name}
+
+    - if gon.current_user_id && (gon.current_user_id == question_user_id)     
+      br
+      - unless answer.best_answer == true
+        a class="best-answer-link" data-answer-id="#{answer.id}" data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{question_id}/answers/#{answer.id}/choose_best"
+          |Best Answer

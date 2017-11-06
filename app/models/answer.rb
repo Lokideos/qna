@@ -2,6 +2,8 @@
 
 class Answer < ApplicationRecord
   include Ratable
+  include Commentable
+
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable, dependent: :destroy
@@ -25,10 +27,25 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+  def prepare_attachments
+    attachments.map { |a| { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
+  end
+
+  def prepare_data
+    {
+      answer: self,
+      answer_user_id: user.id,
+      question_id: question.id,
+      question_user_id: question.user_id,
+      answer_attachments: prepare_attachments,
+      sum_ratings: ratings.sum(:value)
+    }
+  end
+
   private
 
   def only_one_answer_can_be_best
-    if question&.answers&.where(best_answer: true)&.length > 1
+    if question && question.answers.where(best_answer: true).length > 1
       errors.add(:best_answer, 'have to be unique for each question')
     end
   end

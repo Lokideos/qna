@@ -27,6 +27,7 @@ ready = function() {
     $('.rating-options-cancel-answer-' + answerId).hide();
     $('.rating-options-vote-answer-' + answerId).show();
   });
+  
 };
 $(document).ready(ready);
 $(document).on('turbolinks:load',ready);

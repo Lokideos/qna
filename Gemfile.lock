@@ -94,6 +94,10 @@ GEM
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
+    gon (6.2.0)
+      actionpack (>= 3.0)
+      multi_json
+      request_store (>= 1.0)
     i18n (0.8.6)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
@@ -165,6 +169,7 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     remotipart (1.3.1)
+    request_store (1.3.2)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -197,6 +202,11 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    skim (0.10.0)
+      coffee-script
+      coffee-script-source (>= 1.2.0)
+      slim (>= 3.0)
+      sprockets (>= 2, < 4)
     slim (3.0.8)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 1.3.3, < 2.1)
@@ -255,6 +265,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  gon
   jbuilder (~> 2.5)
   jquery-rails
   jquery-turbolinks
@@ -268,6 +279,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   shoulda-matchers!
+  skim
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -278,4 +290,4 @@ DEPENDENCIES
   with_model
 
 BUNDLED WITH
-   1.15.4
+   1.16.0.pre.3

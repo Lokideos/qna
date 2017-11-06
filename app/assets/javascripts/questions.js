@@ -1,5 +1,7 @@
 var ready;
+
 ready = function() {
+  
   $('a.change-rate-question').bind('ajax:success', function (e, data, status, xhr) {
     var rating = $.parseJSON(xhr.responseText);
     $('.current_rating').html('');
@@ -16,7 +18,7 @@ ready = function() {
     $('.rating_saved_cancel').hide();
     $('.rating_options_cancel').hide();
     $('.rating_options_vote').show();
-  });  
+  });
 };
-$(document).ready(ready);
-$(document).on('turbolinks:load',ready);
+
+$(document).on('turbolinks:load', ready);

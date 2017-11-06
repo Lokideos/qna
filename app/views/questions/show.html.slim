@@ -1,51 +1,61 @@
-h3
-  = t('.title', question_name: @question.title)
+.question data-id="#{@question.id}"
+  h3
+    = t('.title', question_name: @question.title)
 
-p
-  = @question.body
+  p
+    = @question.body
 
-h4 Rating
-.rating
-  .current_rating
-    p = "Question Rating: #{@question.ratings.sum(:value)}"
-  
-  .rating_options
-  - if current_user && !current_user.author_of?(@question)
-    - if @question.rating_current_user(current_user)
-      .rating_saved_cancel
-        = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true
+  h4 Rating
+  .rating
+    .current_rating
+      p = "Question Rating: #{@question.ratings.sum(:value)}"
+    
+    .rating_options
+    - if current_user && !current_user.author_of?(@question)
+      - if @question.rating_current_user(current_user)
+        .rating_saved_cancel
+          = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true
 
-    - else
-      .rating_saved_vote
+      - else
+        .rating_saved_vote
+          = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
+          br
+          = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
+
+      .rating_options_vote
         = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
         br
-        = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
+        = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true    
 
-    .rating_options_vote
-      = link_to 'Good Question', rate_good_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true
-      br
-      = link_to 'Bad Question', rate_bad_question_path(@question), method: :patch, class: 'change-rate-question', data: { type: :json }, remote: true    
+      .rating_options_cancel
+        = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true
 
-    .rating_options_cancel
-      = link_to "Cancel Question Rate", cancel_rate_question_path(@question), method: :patch, class: 'cancel-rate-question', data: { type: :json}, remote: true
+  h4 Attachments:
+  .attachments
+    ul
+      - @question.attachments.each do |a|
+        li = link_to a.file.identifier, a.file.url
 
-h4 Attachments:
-.attachments
-  ul
-    - @question.attachments.each do |a|
-      li = link_to a.file.identifier, a.file.url
+  .flash_show
 
-.flash_show
+  .question-comments
 
-h3 Best answer
+    h3 Comments
 
-.best-answer
-  - if @question.answers.find_by(best_answer: true)
-    = @question.answers.find_by(best_answer: true).body
+    = render 'comments/comments', resource: @question
+
+  .new-comments
+
+
+  h3 Best answer
+
+  .best-answer
+    - if @question.answers.find_by(best_answer: true)
+      = @question.answers.find_by(best_answer: true).body
 
 h3 Answers section
 .answers
-  table
+  table.answers-table
     thead
     tbody
         = render @question.answers.ordered_by_creation

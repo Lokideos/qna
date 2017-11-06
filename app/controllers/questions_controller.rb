@@ -3,11 +3,13 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
+  after_action :publish_question, only: [:create]
 
   include Rated
 
   def index
     @questions = Question.all
+    @current_user = current_user
   end
 
   def show
@@ -65,5 +67,15 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: %i[id file _destroy])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast(
+      'questions',
+
+      ApplicationController.render(json: @question)
+    )
   end
 end

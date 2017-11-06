@@ -38,9 +38,11 @@ gem 'jbuilder', '~> 2.5'
 gem 'carrierwave'
 gem 'cocoon'
 gem 'devise'
+gem 'gon'
 gem 'jquery-rails'
 gem 'rails-controller-testing'
 gem 'remotipart'
+gem 'skim'
 gem 'slim-rails'
 
 group :development, :test do
