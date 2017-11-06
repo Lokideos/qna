@@ -14,7 +14,7 @@
 
   h3 Attachments:
   div.attachments
-    = f.fields_for :attachments do |attachment|
+    = f.fields_for :attachments, @question.attachments.build do |attachment|
       - if attachment
         div[class="attachment-#{attachment.object.id}"]
           = render 'common/attachment_fields', f: attachment
