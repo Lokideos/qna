@@ -5,15 +5,15 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: %i[show edit update destroy]
   after_action :publish_question, only: [:create]
   before_action :set_current_user, only: [:index]
-  before_action :build_answer, only: [:show]  
+  before_action :build_answer, only: [:show]
 
   include Rated
 
   def index
-    respond_with(@questions = Question.all)    
+    respond_with(@questions = Question.all)
   end
 
-  def show    
+  def show
     respond_with @question
   end
 
@@ -23,7 +23,7 @@ class QuestionsController < ApplicationController
 
   def edit; end
 
-  def create    
+  def create
     respond_with @question = current_user.questions.create(question_params)
   end
 
@@ -38,7 +38,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     if correct_user?(@question)
-      respond_with(@question.destroy) 
+      respond_with(@question.destroy)
     else
       render :index
     end
