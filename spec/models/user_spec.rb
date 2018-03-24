@@ -31,56 +31,74 @@ RSpec.describe User do
     end
 
     context 'user has not authorization' do
-      context 'user already exists' do
-        let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: user.email }) }
-        it 'does not create new user' do
-          expect { User.find_for_oauth(auth) }.to_not change(User, :count)
+      context 'auth hash contains email' do
+        context 'user already exists' do
+          let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: user.email }) }
+          it 'does not create new user' do
+            expect { User.find_for_oauth(auth) }.to_not change(User, :count)
+          end
+
+          it 'creates authorization for user' do
+            expect { User.find_for_oauth(auth) }.to change(user.authorizations, :count).by(1)
+          end
+
+          it 'creates authorization with provider and uid' do
+            user = User.find_for_oauth(auth)
+            authorization = user.authorizations.first
+
+            expect(authorization.provider).to eq auth.provider
+            expect(authorization.uid).to eq auth.uid
+          end
+
+          it 'returns the user' do
+            expect(User.find_for_oauth(auth)).to eq user
+          end
         end
 
-        it 'creates authorization for user' do
-          expect { User.find_for_oauth(auth) }.to change(user.authorizations, :count).by(1)
-        end
+        context 'user does not exist' do
+          let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'new@user.com' }) }
+          
+          it 'creates new user' do
+            expect { User.find_for_oauth(auth) }.to change(User, :count).by(1)
+          end
 
-        it 'creates authorization with provider and uid' do
-          user = User.find_for_oauth(auth)
-          authorization = user.authorizations.first
+          it 'returns new user' do
+            expect(User.find_for_oauth(auth)).to be_a(User)
+          end
 
-          expect(authorization.provider).to eq auth.provider
-          expect(authorization.uid).to eq auth.uid
-        end
+          it 'fills user email' do
+            user = User.find_for_oauth(auth)
+            expect(user.email).to eq auth.info.email
+          end
 
-        it 'returns the user' do
-          expect(User.find_for_oauth(auth)).to eq user
+          it 'creates authorization for user' do
+            user = User.find_for_oauth(auth)
+            expect(user.authorizations).to_not be_empty
+          end
+
+          it 'creates authorization with provider and uid' do
+            authorization = User.find_for_oauth(auth).authorizations.first
+
+            expect(authorization.provider).to eq auth.provider
+            expect(authorization.uid).to eq auth.uid
+          end
         end
       end
 
-      context 'user does not exist' do
-        let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'new@user.com' }) }
-        
-        it 'creates new user' do
-          expect { User.find_for_oauth(auth) }.to change(User, :count).by(1)
+      context "auth hash doesn't contain email" do
+        context "user already exists" do
+          let(:auth) { OmniAuth::AuthHash.new(provider: 'twitter', uid: '1234567') }
+
+          it 'does not create new user' do
+            expect { User.find_for_oauth(auth) }.to_not change(User, :count)
+          end
+
+          it 'creates authorization for user'
+          it 'creates authorization with provider and uid'
+          it 'returns the user'
         end
 
-        it 'returns new user' do
-          expect(User.find_for_oauth(auth)).to be_a(User)
-        end
-
-        it 'fills user email' do
-          user = User.find_for_oauth(auth)
-          expect(user.email).to eq auth.info.email
-        end
-
-        it 'creates authorization for user' do
-          user = User.find_for_oauth(auth)
-          expect(user.authorizations).to_not be_empty
-        end
-
-        it 'creates authorization with provider and uid' do
-          authorization = User.find_for_oauth(auth).authorizations.first
-
-          expect(authorization.provider).to eq auth.provider
-          expect(authorization.uid).to eq auth.uid
-        end
+        context "user doesn't exist"
       end
     end
   end
