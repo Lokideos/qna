@@ -55,6 +55,8 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'with_model'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do
