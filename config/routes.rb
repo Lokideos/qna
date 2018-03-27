@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   resources :questions, concerns: %i[ratable commentable] do
     resources :answers, concerns: %i[ratable commentable], except: %i[index new show] do
