@@ -9,33 +9,24 @@ class AnswersController < ApplicationController
 
   include Rated
 
+  respond_to :js
+
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    flash.now[:notice] = if @answer.save
-                           'Answer was created.'
-                         else
-                           'Answer was not created.'
-                         end
+    @answer = current_user.answers.create(answer_params.merge(question_id: @question.id))
+    respond_with(@answer)
   end
 
   def update
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
-      flash.now[:notice] = 'Answer was updated.'
+      respond_with @answer
     else
-      flash.now[:notice] = 'Answer was not updated.'
       render :update
     end
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      flash.now[:notice] = 'Answer was deleted.'
-    else
-      flash.now[:notice] = 'Answer was not deleted.'
-    end
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def choose_best
@@ -66,6 +57,6 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    ActionCable.server.broadcast("question_#{@answer.question.id}", @answer.prepare_data)
+    ActionCable.server.broadcast("question_#{@answer.question.id}", @answer.prepare_data) if @answer.valid?
   end
 end

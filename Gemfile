@@ -42,6 +42,7 @@ gem 'gon'
 gem 'jquery-rails'
 gem 'rails-controller-testing'
 gem 'remotipart'
+gem 'responders', '~> 2.0'
 gem 'skim'
 gem 'slim-rails'
 

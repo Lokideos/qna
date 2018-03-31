@@ -5,15 +5,10 @@ class CommentsController < ApplicationController
   before_action :load_association, only: [:create]
   after_action :publish_comment, only: [:create]
 
-  def create
-    @comment = @commentable.comments.new(comment_params)
-    @comment.user = current_user
+  respond_to :json
 
-    if @comment.save
-      render json: @comment
-    else
-      render json: @comment.errors.full_messages
-    end
+  def create
+    respond_with @comment = @commentable.comments.create(comment_params.merge(user: current_user)), json: @comment
   end
 
   private

@@ -11,7 +11,7 @@
     = f.text_area :body, class: "new_answer_form"
     br
     div.attachments
-      = f.fields_for :attachments do |attachment|
+      = f.fields_for :attachments, @answer.attachments.build do |attachment|
         = render 'common/attachment_fields', f: attachment
       .links
         = link_to_add_association 'add attachment', f, :attachments,

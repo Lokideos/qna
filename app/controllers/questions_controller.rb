@@ -4,62 +4,59 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
   after_action :publish_question, only: [:create]
+  before_action :set_current_user, only: [:index]
+  before_action :build_answer, only: [:show]
 
   include Rated
 
   def index
-    @questions = Question.all
-    @current_user = current_user
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
-  def edit
-    @question.attachments.build if current_user.author_of?(@question)
-  end
+  def edit; end
 
   def create
-    @question = Question.create(question_params)
-    @question.user_id = current_user.id
-
-    if @question.save
-      redirect_to @question, notice: 'Your question successfully created.'
-    else
-      render :new
-    end
+    respond_with @question = current_user.questions.create(question_params)
   end
 
   def update
-    if current_user.author_of?(@question)
-      if @question.update(question_params)
-        redirect_to @question
-      else
-        render :edit
-      end
+    if correct_user?(@question)
+      @question.update(question_params)
+      respond_with @question
     else
       render :index
     end
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-
-      redirect_to questions_path
+    if correct_user?(@question)
+      respond_with(@question.destroy)
     else
       render :index
     end
   end
 
   private
+
+  def correct_user?(question)
+    current_user.author_of?(question)
+  end
+
+  def build_answer
+    @answer = @question.answers.build
+  end
+
+  def set_current_user
+    @current_user = current_user
+  end
 
   def load_question
     @question = Question.find(params[:id])
