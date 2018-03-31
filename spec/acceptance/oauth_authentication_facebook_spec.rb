@@ -8,14 +8,14 @@ feature 'Authenticate via facebook', %q{
   given(:user) { create(:user) }
 
   context 'User & authorization exist' do
-    given(:authorization) { create(:authorization, user: user, provider: 'Facebook', uid: '123456') }
+    given!(:authorization) { create(:authorization, user: user, provider: 'facebook', uid: '123456') }
 
     scenario 'User already has authorization' do
       visit new_user_session_path
       expect(page).to have_link ("Sign in with Facebook")
 
       mock_auth_facebook_hash
-      click_link "Sign in with Facebook"    
+      click_link "Sign in with Facebook" 
       expect(page).to have_content "Successfully authenticated from Facebook account."
       expect(current_path).to eq root_path
     end
