@@ -1,0 +1,10 @@
+h2 Email search
+p For security reasons please type in your email
+
+= form_tag check_email_email_oauth_assigner_path, class: 'search_form', method: :post do
+  = label_tag :email
+  br
+  = text_field_tag :email
+  br
+  = submit_tag "Search for email"
+end
