@@ -14,6 +14,7 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require twitter/bootstrap
 //= require action_cable
 //= require jquery.remotipart
 //= require cocoon
