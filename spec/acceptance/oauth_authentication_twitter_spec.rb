@@ -22,7 +22,7 @@ feature 'Authenticate via twitter', %q{
   end
 
   context 'There is no authorization' do
-    scenario 'User exists & tries to authenticate via his tiwtter account' do
+    scenario 'User exists & tries to authenticate via his twitter account' do
       visit new_user_session_path
       expect(page).to have_link 'Sign in with Twitter'
 
@@ -42,7 +42,7 @@ feature 'Authenticate via twitter', %q{
       expect(current_path).to eq root_path
     end
 
-    scenario 'User does not exist & tries to authenticate via his tiwtter account' do
+    scenario 'User does not exist & tries to authenticate via his twitter account' do
       visit new_user_session_path
       expect(page).to have_link 'Sign in with Twitter'
 
@@ -53,7 +53,7 @@ feature 'Authenticate via twitter', %q{
 
       fill_in 'Email', with: "newemail@example.com"
       click_on "Search for email"
-      expect(page).to have_content "Please confirm your email"
+      expect(page).to have_content "Please confirm your address"
       
       open_email "newemail@example.com"
       current_email.click_link "Confirm my account"
