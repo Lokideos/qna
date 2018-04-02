@@ -16,9 +16,12 @@ feature 'Sign Up', %q{
     fill_in 'Password', with: "123456789"
     fill_in 'Password confirmation', with: "123456789"
     click_on 'Sign up'
+    expect(page).to have_content "A message with a confirmation link has been sent"
 
-    expect(page).to have_content "Welcome! You have signed up successfully."
-    expect(current_path).to eq root_path
+    open_email "test@test.com"
+    current_email.click_link "Confirm my account"
+    expect(page).to have_content "You've been successfully authenticated"
+    expect(current_path).to eq root_path    
   end
 
   scenario 'Existed user tries to sign up' do
