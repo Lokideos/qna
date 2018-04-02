@@ -3,24 +3,19 @@ class EmailOauthAssignersController < ApplicationController
 
   def check_email
     @email = params[:email]
-    @user = User.where(email: @email).first
-    unless @user
-      password = Devise.friendly_token[0, 20]
-      User.create!(email: @email, password: password, password_confirmation: password)
-      @user = User.where(email: @email).first
-      @user.authorizations.create(provider: session['device.provider'], uid: session['device.uid'])
-      flash[:success] = "Please confirm your email. Then you will be able to authenticate using your twitter account."
-      redirect_to root_path
-    end
+    @auth = OmniAuth::AuthHash.new(provider: session['device.provider'], uid: session['device.uid'], info: { email: @email, new_user: true })
+    @user = User.find_by_email(@email)
+    User.find_for_oauth(@auth) unless @user
   end
 
   def assign_oauth_authorization
     @email = params[:email]
     @password = params[:password]
+    @auth = OmniAuth::AuthHash.new(provider: session['device.provider'], uid: session['device.uid'])
 
-    @user = User.where(email: @email).first
+    @user = User.find_by_email(@email)
     if @user.valid_password?(@password)
-      @user.authorizations.create(provider: session['device.provider'], uid: session['device.uid'])
+      @user.create_authorization(@auth)
       flash[:success] = "Successfully authenticated from Twitter account."
       sign_in_and_redirect @user, event: :authentication
     end

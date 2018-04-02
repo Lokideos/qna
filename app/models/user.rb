@@ -25,14 +25,13 @@ class User < ApplicationRecord
         user.create_authorization(auth)
       else
         password = Devise.friendly_token[0, 20]
-        user = User.create!(email: email, password: password, password_confirmation: password, confirmed_at: Time.now)
+        if auth.info[:new_user]
+          user = User.create!(email: email, password: password, password_confirmation: password)
+        else
+          user = User.create!(email: email, password: password, password_confirmation: password, confirmed_at: Time.now)
+        end
         user.create_authorization(auth)
       end
-    else
-      password = Devise.friendly_token[0,20]
-      email_part = Devise.friendly_token[0,8]
-      email = "#{email_part}@example.com"
-      user = User.new(email: email, password: password, password_confirmation: password)
     end
 
     user
@@ -40,5 +39,9 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  def self.find_by_email(email)
+    user = User.where(email: email).first
   end
 end
