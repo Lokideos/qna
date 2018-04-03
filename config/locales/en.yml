@@ -52,6 +52,7 @@ en:
       delete: 'Delete Question'
     index:
       title: "Questions List"
+      actions: "Available actions"
       quesiton_name: "Question title"
       new_question_action: "Ask question"      
     new:

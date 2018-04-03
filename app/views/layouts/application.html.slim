@@ -17,34 +17,30 @@ html lang="en"
     /[if lt IE 9]
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"
 
-
-  body
+  body.body
     .navbar.navbar-default.navbar-static-top
         .container
           button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand href="#"Qna
+          a.navbar-brand href="/"Q&A
           .navbar-collapse.collapse.navbar-responsive-collapse
-            ul.nav.navbar-nav
-              li= link_to "Link 1", "/path1"
-              li= link_to "Link 2", "/path2"
-              li= link_to "Link 3", "/path3"
+            ul.nav.navbar-nav.login
+              - if user_signed_in?
+                li= link_to t('common.sign_out'), destroy_user_session_path, method: :delete
+              - else
+                li = link_to t('common.sign_in'), new_user_session_path
 
     .container
       .row
-        .col-lg-9
+        .col-lg-12
           = bootstrap_flash
           = yield
-        .col-lg-3
-          .well.sidebar-nav
-            h3 Sidebar
-            ul.nav.nav-list
-              li.nav-header Sidebar
-              li= link_to "Link 1", "/path1"
-              li= link_to "Link 2", "/path2"
-              li= link_to "Link 3", "/path3"
 
-      footer
-        p &copy; Company 2018
+    .footer
+      .row
+        .col-md-offset-9
+          p
+            ' &copy Robotech Inc. 2018 for
+            =link_to("Thinknetica RoR learning project", "http://thinknetica.ru")
