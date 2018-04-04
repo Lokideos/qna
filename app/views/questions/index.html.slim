@@ -1,13 +1,19 @@
-h1
-  = t('.title')
+.container
+  .row
+    .col-md-12
+      .main 
+        h1
+          = t('.title')
 
-table.questions-list
+table.questions-list.table.table-hover
   thead
     tr
-      td 
+      th[scope="col"]
         = t('.quesiton_name')
+      th[colspan = 3 scope ="col"]
+        = t('.actions')        
   tbody
-    = render @questions
+      = render @questions
     
-p
+p.btn.btn-primary.btn-lg.new-question
   = link_to t('.new_question_action'), new_question_path

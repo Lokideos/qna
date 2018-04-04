@@ -3,3 +3,15 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .rating_options_vote { display: none }
 .rating_options_cancel { display: none }
+
+.main {
+  text-align: center;
+}
+
+p.new-question a:link{
+  text-decoration: none;
+}
+
+.new-question a{
+  color: white;
+}
