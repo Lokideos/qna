@@ -1,0 +1,16 @@
+h2 Email search results
+
+- if @user
+  p You email was found in the system. Please type in password for your email to confirm your credentials.
+
+  = form_tag assign_oauth_authorization_email_oauth_assigner_path, method: :post do
+    = hidden_field_tag :email, params[:email], readonly: true, class: 'form_control'
+
+    = label_tag :password
+    br
+    = text_field_tag :password
+    br
+    = submit_tag "Confirm email"
+- else
+  p You email was not found in the system. Confirmation email was sent to your email address.
+  p Please confirm your address to proceed authentication.

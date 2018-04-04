@@ -45,6 +45,9 @@ gem 'remotipart'
 gem 'responders', '~> 2.0'
 gem 'skim'
 gem 'slim-rails'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
@@ -57,6 +60,8 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'with_model'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end
 
 group :development do
