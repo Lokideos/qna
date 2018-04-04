@@ -48,6 +48,7 @@ gem 'slim-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'cancancan'
 
 gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
