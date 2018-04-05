@@ -38,5 +38,14 @@ describe Ability do
 
     it { should be_able_to :update, create(:comment, user: user), user: user }
     it { should_not be_able_to :update, create(:comment, user: other), user: user }
+
+    it { should be_able_to :delete, create(:question, user: user), user: user }
+    it { should_not be_able_to :delete, create(:question, user: other), user: user }
+
+    it { should be_able_to :delete, create(:answer, user: user), user: user }
+    it { should_not be_able_to :delete, create(:answer, user: other), user: user }
+
+    it { should be_able_to :delete, create(:comment, user: user), user: user }
+    it { should_not be_able_to :delete, create(:comment, user: other), user: user }
   end
 end
