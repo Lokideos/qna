@@ -1,6 +1,8 @@
 class EmailOauthAssignersController < ApplicationController
   before_action :load_email, only: [:check_email, :assign_oauth_authorization]
 
+  skip_authorization_check
+
   def find_email; end
 
   def check_email

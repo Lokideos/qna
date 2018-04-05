@@ -60,4 +60,8 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
 
   config.force_ssl = true
+
+  config.to_prepare do
+    DeviseHelpers.skip_authorization
+  end
 end
