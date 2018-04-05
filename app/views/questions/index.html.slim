@@ -14,6 +14,7 @@ table.questions-list.table.table-hover
         = t('.actions')        
   tbody
       = render @questions
-    
-p.btn.btn-primary.btn-lg.new-question
-  = link_to t('.new_question_action'), new_question_path
+
+- if can?(:create, Question)    
+  p.btn.btn-primary.btn-lg.new-question
+    = link_to t('.new_question_action'), new_question_path
