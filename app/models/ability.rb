@@ -25,6 +25,15 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer, Comment], user: user
-    can :delete, [Question, Answer, Comment], user: user
+    can :destroy, [Question, Answer, Comment], user: user
+    can :rate_good, [Question, Answer]
+    cannot :rate_good, [Question, Answer], user: user
+    can :rate_bad, [Question, Answer]
+    cannot :rate_bad, [Question, Answer], user: user
+    can :cancel_rate, [Question, Answer]
+    cannot :cancel_rate, [Question, Answer], user: user
+    can :choose_best, Answer do |answer|
+      answer.question.user == user
+    end
   end
 end
