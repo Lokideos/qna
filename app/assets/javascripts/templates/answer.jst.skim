@@ -27,7 +27,7 @@ tr
           li
             a href="#{file.file_url}" #{file.file_name}
 
-    - if gon.current_user_id && (gon.current_user_id == question_user_id)     
+    - if gon.current_user_id && (gon.current_user_id == question_user_id)   
       br
       - unless answer.best_answer == true
         a class="best-answer-link" data-answer-id="#{answer.id}" data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{question_id}/answers/#{answer.id}/choose_best"
