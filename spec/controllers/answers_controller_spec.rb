@@ -165,11 +165,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'not deletes answer' do
         expect { delete :destroy, params: { question_id: question.id, id: answer_of_another_user, format: :js } }.not_to change(Answer, :count)
       end
-
-      it 'render related question view' do
-        delete :destroy, params: { question_id: question.id, id: answer_of_another_user, format: :js }
-        expect(response).to render_template :destroy
-      end
     end
   end
 
@@ -185,11 +180,6 @@ RSpec.describe AnswersController, type: :controller do
         answer2.reload
         expect(answer2.best_answer).to eq true
       end
-
-      it "render related quesiton view" do
-        patch :choose_best, params: { question_id: question_of_current_user, id: answer2, format: :js }
-        expect(response).to render_template :choose_best
-      end
     end
 
     context "with invalid author" do
@@ -202,11 +192,6 @@ RSpec.describe AnswersController, type: :controller do
         answer2.reload
         expect(answer2.best_answer).to eq false
       end
-
-      it "render related quesiton view" do
-        patch :choose_best, params: { question_id: question_of_another_user, id: answer2, format: :js }
-        expect(response).to render_template :choose_best
-      end        
     end
   end  
 end

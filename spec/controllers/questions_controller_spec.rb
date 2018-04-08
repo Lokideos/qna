@@ -213,11 +213,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 'not delete question' do
         expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
       end
-
-      it 'redirects to index view' do
-        delete :destroy, params: { id: question }
-        expect(response).to render_template :index
-      end
     end
 
   end
