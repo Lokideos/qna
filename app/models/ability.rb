@@ -24,16 +24,34 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer, Comment], user: user
-    can :destroy, [Question, Answer, Comment], user: user
-    can :rate_good, [Question, Answer]
-    cannot :rate_good, [Question, Answer], user: user
-    can :rate_bad, [Question, Answer]
-    cannot :rate_bad, [Question, Answer], user: user
-    can :cancel_rate, [Question, Answer]
-    cannot :cancel_rate, [Question, Answer], user: user
-    can :choose_best, Answer do |answer|
-      answer.question.user == user
+    can :update, [Question, Answer, Comment], user_id: user.id
+    can :destroy, [Question, Answer, Comment], user_id: user.id
+    can :rate_good, [Question, Answer] do |ratable|
+      can_rate?(ratable)
     end
+    can :rate_bad, [Question, Answer] do |ratable|
+      can_rate?(ratable)
+    end
+    can :cancel_rate, [Question, Answer] do |ratable|
+      can_cancel_rate?(ratable)
+    end
+    can :choose_best, Answer do |answer|
+      user.author_of?(answer.question)
+    end
+
+    can :destroy, Attachment do |attachment|
+      user.author_of?(attachment.attachable)
+    end
+  end
+
+  def can_cancel_rate?(item)
+    @can_cancel_rate = false
+    item.ratings.each do |rating|
+      @can_cancel_rate = true if user.author_of?(rating) && !user.author_of?(item)
+    end
+  end
+
+  def can_rate?(item)
+    !user.author_of?(item)
   end
 end
