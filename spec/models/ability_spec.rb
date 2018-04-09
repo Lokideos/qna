@@ -22,10 +22,9 @@ describe Ability do
   describe 'for user' do
     let(:user) { create :user }
     let(:other) { create :user }
-    let(:question_rating) { create :rating, value: 0, ratable: create(:question, user: other), user: user }
-    let(:bad_question_rating) { create :rating, value: 0, ratable: create(:question, user: other), user: other }
-    let(:answer_rating) { create :rating, value: 0, ratable: create(:answer, user: other), user: user }
-    let(:bad_answer_rating) { create :rating, value: 0, ratable: create(:answer, user: other), user: other }
+    let(:other2) { create :user }
+    let(:question_rating) { create :rating, value: 1, ratable: create(:question, user: other), user: user }
+    let(:answer_rating) { create :rating, value: 1, ratable: create(:answer, user: other), user: user }
     let(:answer_of_users_question) { create :answer, question: create(:question, user: user), user: user }
     let(:answer_of_not_users_question) { create :answer, question: create(:question, user: other), user: user }
     let(:user_attachment) { create(:attachment, attachable: create(:question, user: user)) }
@@ -56,19 +55,19 @@ describe Ability do
 
     it { should be_able_to :rate_good, question_rating.ratable, user: user }
     it { should be_able_to :rate_good, answer_rating.ratable,   user: user }
-    it { should be_able_to :rate_bad, question_rating.ratable, user: user }
-    it { should be_able_to :rate_bad, answer_rating.ratable,   user: user }
+    it { should be_able_to :rate_bad, question_rating.ratable,  user: user }
+    it { should be_able_to :rate_bad, answer_rating.ratable,    user: user }
 
-    it { should_not be_able_to :rate_good, bad_question_rating.ratable, user: user }
-    it { should_not be_able_to :rate_good, bad_answer_rating.ratable,   user: user }
-    it { should_not be_able_to :rate_bad, bad_question_rating.ratable, user: user }
-    it { should_not be_able_to :rate_bad, bad_answer_rating.ratable,   user: user }
+    it { should_not be_able_to :rate_good, create(:question, user: user), user: user }
+    it { should_not be_able_to :rate_good, create(:answer, user: user),   user: user }
+    it { should_not be_able_to :rate_bad, create(:question, user: user),  user: user }
+    it { should_not be_able_to :rate_bad, create(:answer, user: user),    user: user }
 
     it { should be_able_to :cancel_rate, question_rating.ratable, user: user }
     it { should be_able_to :cancel_rate, answer_rating.ratable,   user: user }
 
-    it { should_not be_able_to :cancel_rate, bad_question_rating.ratable, user: user }
-    it { should_not be_able_to :cancel_rate, bad_answer_rating.ratable,   user: user }
+    it { should_not be_able_to :cancel_rate, question_rating.ratable, user: other }
+    it { should_not be_able_to :cancel_rate, answer_rating.ratable,   user: other }
 
     it { should be_able_to :choose_best, answer_of_users_question, user: user }
     it { should_not be_able_to :choose_best, answer_of_not_users_question, user: user }

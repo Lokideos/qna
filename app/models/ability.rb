@@ -36,7 +36,7 @@ class Ability
       can_cancel_rate?(ratable)
     end
     can :choose_best, Answer do |answer|
-      user.author_of?(answer.question)
+      user.author_of?(answer.question) && !answer.best_answer
     end
 
     can :destroy, Attachment do |attachment|
