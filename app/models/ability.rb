@@ -33,7 +33,7 @@ class Ability
       can_rate?(ratable)
     end
     can :cancel_rate, [Question, Answer] do |ratable|
-      can_cancel_rate?(ratable)
+      can_cancel_rate?(ratable, user)
     end
     can :choose_best, Answer do |answer|
       user.author_of?(answer.question) && !answer.best_answer
@@ -44,11 +44,8 @@ class Ability
     end
   end
 
-  def can_cancel_rate?(item)
-    @can_cancel_rate = false
-    item.ratings.each do |rating|
-      @can_cancel_rate = true if user.author_of?(rating) && !user.author_of?(item)
-    end
+  def can_cancel_rate?(item, user)
+    item.ratings.where(user_id: user.id) && !user.author_of?(item)
   end
 
   def can_rate?(item)
