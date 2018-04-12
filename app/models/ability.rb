@@ -45,7 +45,7 @@ class Ability
   end
 
   def can_cancel_rate?(item, user)
-    item.ratings.where(user_id: user.id) && !user.author_of?(item)
+    item.ratings.where(user_id: user.id) && can_rate?(item)
   end
 
   def can_rate?(item)
