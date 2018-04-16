@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Profile API' do
+RSpec.describe 'Profile API'  do
   describe 'GET /me' do
     context 'unauthorized' do
       it 'returns 401 status if there is no access_token' do
