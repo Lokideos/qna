@@ -32,12 +32,12 @@ tr
       - if current_user&.author_of?(answer) && answer.persisted?
         = render 'answers/form', question: @question, answer: answer
         br
-        - unless answer.best_answer
-          = link_to t('answers.common.best'), choose_best_question_answer_path(@question, answer), method: :patch, class: 'best-answer-link', data: { answer_id: answer.id }, remote: true
-        br
         = link_to t('common.edit'), '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
         = link_to t('answers.common.delete'), question_answer_path(@question, answer), method: :delete, data: { confirm: t('common.confirmation'), answer_id: answer.id }, remote: true
+        br
+      - if can?(:choose_best, answer)          
+        = link_to t('answers.common.best'), choose_best_question_answer_path(@question, answer), method: :patch, class: 'best-answer-link', data: { answer_id: answer.id }, remote: true
   td
     div[class = "best-mark-#{answer.id}"]
 tr
