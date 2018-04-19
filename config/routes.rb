@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  use_doorkeeper
   concern :ratable do
     member do
       patch :rate_good
@@ -25,6 +26,15 @@ Rails.application.routes.draw do
     get :find_email, on: :member
     post :check_email, on: :member
     post :assign_oauth_authorization, on: :member
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+        get :list, on: :collection
+      end
+    end
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
