@@ -12,6 +12,11 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     respond_with @question, serializer: QuestionWoAnswerSerializer
   end
 
+  def create
+    @question = Question.create(question_params.merge(user: current_resource_owner))
+    respond_with @question
+  end
+
   def show_answers
     respond_with @question.answers
   end
@@ -20,5 +25,9 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def load_question
     @question = Question.find(params[:id])
+  end
+
+  def question_params
+    params.require(:question).permit(:title, :body)
   end
 end

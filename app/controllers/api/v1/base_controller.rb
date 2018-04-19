@@ -2,6 +2,10 @@ class Api::V1::BaseController < ActionController::Base
   before_action :doorkeeper_authorize!
   respond_to :json
 
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: { error: exception.message }, status: :forbidden
+  end
+
   protected
 
   def current_resource_owner

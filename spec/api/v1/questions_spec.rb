@@ -143,7 +143,6 @@ describe 'Questions API' do
     end
 
     context 'authorized' do
-      let(:user) { create(:user) }
       let(:access_token) { create(:access_token) }
       let(:question) { create(:question) }
       let(:id) { question.id }
@@ -164,6 +163,29 @@ describe 'Questions API' do
         it "contains #{attr}" do
           expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("0/#{attr}")
         end
+      end
+    end
+  end
+
+  describe 'POST /create' do
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access_token' do
+        post '/api/v1/questions', params: { question: attributes_for(:question), format: :json }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        post '/api/v1/questions', params: { question: attributes_for(:question), format: :json, access_token: '1234' }
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      it 'returns 200 status code' do
+        post "/api/v1/questions", params: { question: attributes_for(:question), format: :json, access_token: access_token.token }
+        expect(response).to be_success
       end
     end
   end
