@@ -42,6 +42,8 @@ class Ability
     can :destroy, Attachment do |attachment|
       user.author_of?(attachment.attachable)
     end
+
+    can :show_answers, Question, user_id: user.id
   end
 
   def can_cancel_rate?(item, user)
