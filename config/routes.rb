@@ -35,7 +35,9 @@ Rails.application.routes.draw do
         get :index, on: :collection
       end
       
-      resources :questions
+      resources :questions do
+        get :show_answers, on: :member
+      end
     end
   end
 
