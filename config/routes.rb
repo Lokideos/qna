@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       end
       
       resources :questions do
+        resources :answers
         get :show_answers, on: :member
       end
     end
