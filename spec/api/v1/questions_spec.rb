@@ -156,13 +156,13 @@ describe 'Questions API' do
 
       it 'returns the question' do
         post_question_create_request
-        expect(response.body).to have_json_size(9)
+        expect(response.body).to have_json_size(1)
       end
 
       %w(id title body created_at updated_at).each do |attr|
         it "contains #{attr}" do
           post_question_create_request
-          expect(response.body).to be_json_eql(assigns(:question).send(attr.to_sym).to_json).at_path("#{attr}")
+          expect(response.body).to be_json_eql(assigns(:question).send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
       end
     end

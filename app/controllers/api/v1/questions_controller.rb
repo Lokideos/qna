@@ -12,7 +12,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def create
     @question = Question.create(question_params.merge(user: current_resource_owner))
-    respond_with @question
+    render json: { question: @question }
   end
 
   private
