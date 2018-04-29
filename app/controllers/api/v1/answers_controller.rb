@@ -1,7 +1,7 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   before_action :load_answer, only: [:show]
   before_action :load_associated_question, only: [:show]
-  before_action :load_associated_question_for_index, only: [:index]
+  before_action :load_associated_question_from_url, only: [:index, :create]
 
   authorize_resource
 
@@ -11,6 +11,11 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def show
     respond_with @answer
+  end
+
+  def create
+    @answer = current_resource_owner.answers.create(answer_params.merge(question_id: @question.id))
+    render :json => { :answer => @answer }
   end
 
   private
@@ -23,7 +28,11 @@ class Api::V1::AnswersController < Api::V1::BaseController
     @question = @answer.question
   end
 
-  def load_associated_question_for_index
+  def load_associated_question_from_url
     @question = Question.find(params[:question_id])
+  end
+
+  def answer_params
+    params.require(:answer).permit(:body)
   end
 end
