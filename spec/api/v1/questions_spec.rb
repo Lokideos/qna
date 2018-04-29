@@ -145,8 +145,6 @@ describe 'Questions API' do
     context 'authorized' do
       let(:access_token) { create(:access_token) }
 
-      # before { post '/api/v1/questions', params: { question: attributes_for(:question), format: :json, access_token: access_token.token } }
-
       it 'returns 200 status code' do
         post_question_create_request
         expect(response).to be_success
