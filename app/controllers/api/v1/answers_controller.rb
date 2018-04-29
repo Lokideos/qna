@@ -15,7 +15,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def create
     @answer = current_resource_owner.answers.create(answer_params.merge(question_id: @question.id))
-    render :json => { :answer => @answer }
+    render json: { answer: @answer }
   end
 
   private
