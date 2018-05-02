@@ -78,5 +78,7 @@ describe Ability do
 
     it { should be_able_to :destroy, user_attachment,           user: user }
     it { should_not be_able_to :destroy, other_user_attachment, user: user }
+
+    it { should be_able_to :show_answers, create(:question, user: user), user }
   end
 end
