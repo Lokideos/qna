@@ -10,4 +10,13 @@ shared_examples_for "API Authenticalble" do
       expect(response.status).to eq 401
     end
   end
+
+  context 'authorized' do
+    let(:access_token_for_200_code) { create(:access_token) }
+
+    it 'returns 200 status code' do
+      do_request(access_token: access_token_for_200_code.token)
+      expect(response).to be_success
+    end
+  end
 end
