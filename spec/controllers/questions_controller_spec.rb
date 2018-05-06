@@ -8,34 +8,30 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #rate_good' do
     sign_in_user
 
-    it "creates new good rating" do
-      expect(question.ratings.first).to eq nil
-      patch :rate_good, params: { id: question, format: :json }
-      question.reload
-      expect(question.ratings.first).to_not eq nil
+    it_behaves_like "Ratable"
+
+    def objects_assign
+      @assigned_object = question
+      @final_rating_value = 1
     end
 
-    it "changes rating's value" do
-      patch :rate_good, params: { id: question, format: :json }
-      question.reload
-      expect(question.ratings.first.value).to eq 1
+    def do_request(options = {} )
+      patch :rate_good, params: { id: question, format: :json }.merge(options)
     end
   end
 
   describe 'PATCH #rate_bad' do
     sign_in_user
 
-    it "creates new bad rating" do
-      expect(question.ratings.first).to eq nil
-      patch :rate_bad, params: { id: question, format: :json }
-      question.reload
-      expect(question.ratings.first).to_not eq nil
-    end
+    it_behaves_like "Ratable"
     
-    it "changes rating's value" do 
-      patch :rate_bad, params: { id: question, format: :json }
-      question.reload
-      expect(question.ratings.first.value).to eq -1
+    def objects_assign
+      @assigned_object = question
+      @final_rating_value = -1
+    end
+
+    def do_request(options = {} )
+      patch :rate_bad, params: { id: question, format: :json }.merge(options)
     end
   end
 
