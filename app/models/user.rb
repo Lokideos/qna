@@ -38,6 +38,12 @@ class User < ApplicationRecord
     authorizations.create(provider: auth.provider, uid: auth.uid)
   end
 
+  def self.send_daily_digest
+    find_each.each do |user|
+      DailyMailer.digest(user, Question.new_questions_titles).deliver_later
+    end
+  end
+
   def self.find_by_email(email)
     user = User.where(email: email).first
   end
