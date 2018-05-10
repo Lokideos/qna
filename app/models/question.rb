@@ -13,9 +13,10 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   def self.new_questions
-    Question.where(["created_at > ?", Time.now - 86400])
+    where(["created_at > ?", Time.now - 86400]).order(created_at: :asc)
   end
 
+  # Method below doesnt' work for Daily Mailer e-mail - I'm not sure why so far
   def self.new_questions_titles
     titles = []
     new_questions.each { |question| titles << question.title }

@@ -5,9 +5,10 @@ class DailyMailer < ApplicationMailer
   #
   #   en.daily_mailer.digest.subject
   #
-  def digest(user, titles)
+  def digest(user, questions)
     @greeting = "Hi"
-    @titles = titles
+    @titles = []
+    questions.each { |question| @titles << question.title }
     
     mail to: user.email
   end

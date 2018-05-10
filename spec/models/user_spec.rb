@@ -113,10 +113,12 @@ RSpec.describe User do
 
   describe '.send_daily_digest' do
     let(:users) { create_list(:user, 2) }
-    let(:questions) { create_list(:question, 2) }
+    let(:question1) { create(:question, user: users.first) }
+    let(:question2) { create(:question, user: users.last) }
+    let(:titles) { [question1.title, question2.title] }
 
     it 'should send daily digest to all users' do
-      users.each { |user| expect(DailyMailer).to receive(:digest).with(user, questions).and_call_original }
+      users.each { |user| expect(DailyMailer).to receive(:digest).with(user, titles).and_call_original }
       User.send_daily_digest
     end
   end

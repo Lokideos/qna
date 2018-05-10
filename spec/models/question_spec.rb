@@ -10,5 +10,35 @@ RSpec.describe Question, type: :model do
   it { should validate_presence_of :body }
 
   it { should accept_nested_attributes_for :attachments }
+
+  describe '.new_questions' do
+    let(:questions) { create_list(:question, 2) }
+    let(:old_question) { create(:question, created_at: Time.now-90000) }
+
+    it 'should return new questions' do
+      expect(Question.new_questions).to include(questions.first)
+    end
+
+    it 'should not return old questions' do
+      expect(Question.new_questions).to_not include(old_question)
+    end
+  end
+
+  describe '.new_questions_titles' do
+    let(:questions) { create_list(:question, 2) }
+    let(:title1) { questions.first.title }
+    let(:title2) { questions.last.title }
+    let(:titles) { [title1, title2] }
+    let(:old_question) { create(:question, created_at: Time.now-90000) }
+    let(:old_title) { old_question.title }
+
+    it 'should return new questions titles' do
+      expect(Question.new_questions_titles).to include(titles)
+    end
+
+    it 'should not return old questions titles' do
+      expect(Question.new_questions_titles).to_not include(old_title)
+    end
+  end
   
 end
