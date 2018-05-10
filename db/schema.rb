@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180416175414) do
+ActiveRecord::Schema.define(version: 20180510185129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,13 @@ ActiveRecord::Schema.define(version: 20180416175414) do
     t.bigint "user_id"
     t.index ["ratable_id", "ratable_type"], name: "index_ratings_on_ratable_id_and_ratable_type"
     t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "question_id"
+    t.integer "user_id"
+    t.index ["question_id"], name: "index_subscriptions_on_question_id"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

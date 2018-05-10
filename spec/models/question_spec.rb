@@ -4,6 +4,7 @@ RSpec.describe Question, type: :model do
 
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:attachments).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
   it { should belong_to :user }
 
   it { should validate_presence_of :title }
@@ -38,6 +39,21 @@ RSpec.describe Question, type: :model do
 
     it 'should not return old questions titles' do
       expect(Question.new_questions_titles).to_not include(old_title)
+    end
+  end
+
+  describe '#add_subscription' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+
+    it 'creates new subscription' do
+      expect { question.add_subscription(user) }.to change(question.subscriptions, :count).by(1)
+    end
+
+    it 'assign right question and user to the subscription' do
+      question.add_subscription(user)
+      expect(Subscription.last.user).to eq(user)
+      expect(Subscription.last.question).to eq(question)
     end
   end
   

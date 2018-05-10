@@ -32,6 +32,21 @@ RSpec.describe Answer, type: :model do
 
   end
 
+  describe ".send_notification_to_subscribers" do
+    # let(:users) { create_list(:user, 2) }
+    let(:user) { create(:user) }
+    let(:question) { create(:question)}
+    let(:answer) { create(:answer, question: question) }
+    let(:subscribe3) { create(:subscribe, question: question, user: users) }
+    # let(:subscribe1) { create(:subscribe, question: question, user: users.first) }
+    # let(:subscribe2) { create(:subscribe, question: question, user: users.last) }
+
+    it "should send notficiation mail about all answers to all subscribers" do
+      expect(NotificationMailer).to receive(:notification).with(answer).and_call_original
+      Answer.send_notification_to_subscribers(answer)
+    end
+  end
+
   context "Validations" do
 
     it { should validate_presence_of :body }

@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: [:create]
   before_action :set_current_user, only: [:index]
   before_action :build_answer, only: [:show]
+  after_action only: [:create] { subscribe(@question.user) }
 
   include Rated
 
@@ -47,6 +48,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def subscribe(user)
+    @question.add_subscription(user)
+  end
 
   def correct_user?(question)
     current_user.author_of?(question)

@@ -31,6 +31,13 @@ class Answer < ApplicationRecord
     attachments.map { |a| { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
   end
 
+  def self.send_notification_to_subscribers(answer)
+    question = answer.question
+    question.subscriptions.each do |subscription|
+      NotificationMailer.notification(question, subscription.user).deliver_later
+    end
+  end
+
   def prepare_data
     {
       answer: self,

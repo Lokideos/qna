@@ -4,6 +4,7 @@ RSpec.describe User do
   context 'associations' do
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_many(:questions).dependent(:destroy) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
   end
 
   context 'methods test' do

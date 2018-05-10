@@ -6,6 +6,7 @@ class AnswersController < ApplicationController
   before_action :set_question, only: [:create]
   before_action :set_associated_question, only: %i[update destroy choose_best]
   after_action :publish_answer, only: [:create]
+  after_action :send_notification_email, only: [:create]
 
   include Rated
 
@@ -39,6 +40,10 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def send_notification_email
+    Answer.send_notification_to_subscribers(@answer)
+  end
 
   def set_answer
     @answer = Answer.find(params[:id])
